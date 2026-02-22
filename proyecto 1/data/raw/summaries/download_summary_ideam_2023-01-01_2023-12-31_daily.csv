@@ -1,0 +1,4 @@
+variable,dataset_id,rows,file
+temperature,sbwg-7ju4,570,/Users/jhongarciabarrera/VS - Local/Github/proyectos-clima/proyecto 1/data/raw/temperature/ideam_temperature_risaralda_pereira_2023-01-01_2023-12-31_daily.csv
+precipitation,s54a-sgyg,499,/Users/jhongarciabarrera/VS - Local/Github/proyectos-clima/proyecto 1/data/raw/precipitation/ideam_precipitation_risaralda_pereira_2023-01-01_2023-12-31_daily.csv
+humidity,uext-mhny,579,/Users/jhongarciabarrera/VS - Local/Github/proyectos-clima/proyecto 1/data/raw/humidity/ideam_humidity_risaralda_pereira_2023-01-01_2023-12-31_daily.csv
