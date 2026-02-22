@@ -1,52 +1,63 @@
-# Fuentes de datos y cobertura (Proyecto 1)
+# Data Sources and Coverage (Project 1)
 
-## Objetivo de esta sección
-Registrar las fuentes de datos para el análisis climático de **Pereira (Risaralda)**, indicando cobertura espacial y temporal, variables disponibles y formato de acceso.
-
----
-
-## IDEAM (Colombia) — datos observacionales
-
-### Plataforma
-- Portal de datos abiertos: **datos.gov.co** (publicador: IDEAM / Instituto de Hidrología, Meteorología y Estudios Ambientales).
-
-### Datasets seleccionados (variables clásicas)
-- **Temperatura ambiente del aire**  
-  ID: `sbwg-7ju4`
-- **Precipitación**  
-  ID: `s54a-sgyg`
-- **Humedad del aire**  
-  ID: `uext-mhny`
-
-### Cobertura espacial
-- Estaciones meteorológicas en Colombia.
-- Para este proyecto: filtro por departamento **Risaralda** y municipio **Pereira** (o estaciones cercanas con mejor continuidad).
-
-### Cobertura temporal
-- Series con observaciones históricas (a validar por estación).
-- Meta del proyecto: construir una serie diaria de al menos **10 años**.
-
-### Resolución temporal
-- Registro observacional por estación/sensor; posteriormente se agregará a escala diaria para el análisis.
-
-### Formato y acceso
-- API Socrata (`.json`) y descarga desde portal.
-- Campos típicos: estación, fecha, valor observado, municipio, departamento, lat/lon, unidad.
-
-### Observaciones para el preprocesamiento
-- Verificar unidades por variable.
-- Homologar frecuencia temporal (diaria).
-- Identificar missing values y porcentaje de faltantes.
+## Objective
+Document the selected data sources for climate analysis in **Pereira (Risaralda, Colombia)**, including spatial scale, temporal scale, available variables, and access format.
 
 ---
 
-## Resumen de cobertura para el proyecto
+## 1) IDEAM (Colombia) — observational station data
 
-- **Lugar de interés:** Pereira, Risaralda, Colombia.
-- **Escala temporal objetivo:** 10 años de datos diarios.
-- **Variables foco:** temperatura, precipitación, humedad.
-- **Fuente de datos:** únicamente IDEAM (3 datasets seleccionados).
-- **Estrategia:**
-  1. Filtrar por Risaralda/Pereira.
-  2. Estandarizar unidades y tratar faltantes.
-  3. Construir series diarias y análisis (anomalías, histogramas y Fourier).
+### Platform
+- Open data portal: **datos.gov.co** (publisher: IDEAM).
+
+### Datasets (selected climate variables)
+- **Air temperature** — `sbwg-7ju4`
+- **Precipitation** — `s54a-sgyg`
+- **Air humidity** — `uext-mhny`
+
+### Spatial scale
+- Point/station observations across Colombia.
+- Project focus: Risaralda (Pereira and nearby station coverage when needed).
+
+### Temporal scale
+- Native observations at sub-daily frequency (sensor-level records).
+- Aggregated to **daily** values for this project.
+
+### Access format
+- Socrata API (`.json`) and portal export.
+
+---
+
+## 2) NASA POWER — gridded daily climate data
+
+### Platform
+- NASA POWER API:
+  `https://power.larc.nasa.gov/api/temporal/daily/point`
+
+### Variables selected for comparison
+- `T2M` (temperature at 2m)
+- `PRECTOTCORR` (corrected precipitation)
+- `RH2M` (relative humidity at 2m)
+
+### Spatial scale
+- Gridded product queried at a geographic point (Pereira coordinates).
+
+### Temporal scale
+- **Daily** time series.
+
+### Access format
+- API response in CSV/JSON.
+
+---
+
+## Coverage summary for this project
+
+- **Location:** Pereira, Risaralda, Colombia.
+- **Period:** 2015–2025 (daily).
+- **Core variables:** temperature, precipitation, humidity.
+- **Sources:** IDEAM + NASA POWER.
+
+## Why these two sources
+- IDEAM provides local observational station data.
+- NASA POWER provides a consistent gridded daily reference.
+- Together they satisfy the requirement of comparing common variables across two different databases.
