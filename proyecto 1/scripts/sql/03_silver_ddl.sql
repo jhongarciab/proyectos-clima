@@ -1,5 +1,4 @@
 -- =============================================================================
--- 02_silver_ideam_nasa.sql
 -- Silver Layer: Data cleaning and standardization for IDEAM and NASA POWER.
 --
 -- Responsibilities of this layer:
