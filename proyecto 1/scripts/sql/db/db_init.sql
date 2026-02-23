@@ -14,38 +14,38 @@ CREATE SCHEMA IF NOT EXISTS gold;
 -- =========================================================
 DROP TABLE IF EXISTS bronze.staging_ideam_temperature;
 CREATE TABLE bronze.staging_ideam_temperature (
-  codigoestacion text,
-  nombreestacion text,
-  departamento text,
-  municipio text,
-  fecha text,
-  valor_diario text,
-  unidadmedida text,
-  source_file text
+  codigoestacion      text,
+  nombreestacion      text,
+  departamento        text,
+  municipio           text,
+  fecha               date,
+  valor_diario        numeric(10,4),
+  unidadmedida        text,
+  source_file         text
 );
 
 DROP TABLE IF EXISTS bronze.staging_ideam_precipitation;
 CREATE TABLE bronze.staging_ideam_precipitation (
-  codigoestacion text,
-  nombreestacion text,
-  departamento text,
-  municipio text,
-  fecha text,
-  valor_diario text,
-  unidadmedida text,
-  source_file text
+  codigoestacion      text,
+  nombreestacion      text,
+  departamento        text,
+  municipio           text,
+  fecha               date,
+  valor_diario        numeric(10,4),
+  unidadmedida        text,
+  source_file         text
 );
 
 DROP TABLE IF EXISTS bronze.staging_ideam_humidity;
 CREATE TABLE bronze.staging_ideam_humidity (
-  codigoestacion text,
-  nombreestacion text,
-  departamento text,
-  municipio text,
-  fecha text,
-  valor_diario text,
-  unidadmedida text,
-  source_file text
+  codigoestacion      text,
+  nombreestacion      text,
+  departamento        text,
+  municipio           text,
+  fecha               date,
+  valor_diario        numeric(10,4),
+  unidadmedida        text,
+  source_file         text
 );
 
 -- =========================================================
@@ -53,11 +53,10 @@ CREATE TABLE bronze.staging_ideam_humidity (
 -- =========================================================
 DROP TABLE IF EXISTS bronze.staging_nasa_daily;
 CREATE TABLE bronze.staging_nasa_daily (
-  year text,
-  mo text,
-  dy text,
-  t2m text,
-  prectotcorr text,
-  rh2m text,
+  year integer,
+  doy integer,
+  t2m numeric,
+  prectotcorr numeric,
+  rh2m numeric,
   source_file text
 );
