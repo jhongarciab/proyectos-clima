@@ -25,7 +25,10 @@
 --   silver.ideam_precipitation
 --   silver.nasa_daily
 -- =============================================================================
-
+DROP TABLE IF EXISTS gold.ideam_daily_filled CASCADE;
+DROP VIEW  IF EXISTS gold.ideam_daily        CASCADE;
+DROP VIEW  IF EXISTS gold.nasa_daily         CASCADE;
+DROP VIEW  IF EXISTS gold.climatologia_diaria CASCADE;
 -- -----------------------------------------------------------------------------
 -- 1. IDEAM — TEMPERATURE
 -- -----------------------------------------------------------------------------
@@ -82,8 +85,11 @@ SELECT
     fecha,
     -- Valores < 1 % son físicamente imposibles en Pereira (ceros exactos y
     -- valores residuales de sensor defectuoso se tratan igual)
-    CASE WHEN valor_diario < 1 THEN NULL ELSE valor_diario END AS valor_diario_pct,
-    unidadmedida
+CASE
+    WHEN valor_diario < 1 THEN NULL
+    WHEN codigoestacion = '0026125710' AND valor_diario < 40 THEN NULL
+    ELSE valor_diario
+END AS valor_diario_pct
 FROM bronze.staging_ideam_humidity
 WHERE
     codigoestacion IN ('0026125710', '0026125508', '0026135501')
@@ -122,7 +128,7 @@ SELECT
     fecha,
     -- Valor 288 en Matecaña es centinela de desbordamiento de sensor (feb-mar 2022)
     CASE
-        WHEN codigoestacion = '0026125710' AND valor_diario = 288 THEN NULL
+        WHEN valor_diario > 125 THEN NULL
         ELSE valor_diario
     END AS valor_diario_mm,
     unidadmedida
