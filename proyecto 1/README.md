@@ -20,7 +20,7 @@ proyecto 1/
 ├── notebooks/          # Exploración y análisis reproducible
 ├── docs/
 │   ├── references/     # Descripción de fuentes y variables
-│   ├── figures/        # Figuras finales para el informe
+│   ├── tex/            # Trabajo final
 │   └── report/         # Entrega escrita (borrador/final)
 └── results/
     └── plots/          # Gráficos generados (series, anomalías, histogramas)
