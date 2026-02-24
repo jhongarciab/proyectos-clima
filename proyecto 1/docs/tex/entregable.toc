@@ -1,0 +1,11 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Datos y metodología}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Adquisición y estructura de los datos}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Limpieza y transformación}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Resultados}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Climatología base}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Variabilidad interanual y anomalías}{10}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Distribuciones de frecuencia}{13}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Análisis espectral}{14}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Conclusiones}{17}{section.4}%
