@@ -61,9 +61,17 @@ def _download_basemap(lon_min: float, lat_min: float, lon_max: float, lat_max: f
 def _annotate_cities(ax, lon_min: float, lat_min: float, lon_max: float, lat_max: float) -> None:
     for name, (lat, lon) in CITIES.items():
         if lat_min <= lat <= lat_max and lon_min <= lon <= lon_max:
-            ax.scatter(lon, lat, s=35, c="white", edgecolors="black", zorder=6)
-            ax.text(lon + 0.03, lat + 0.02, name, fontsize=8, color="black", zorder=7,
-                    bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.75))
+            ax.scatter(lon, lat, s=65, c="yellow", edgecolors="black", linewidths=0.9, zorder=6)
+            ax.text(
+                lon + 0.03,
+                lat + 0.02,
+                name,
+                fontsize=11,
+                fontweight="bold",
+                color="black",
+                zorder=7,
+                bbox=dict(boxstyle="round,pad=0.28", fc="white", ec="black", alpha=0.85),
+            )
 
 
 def _open_dataset(nc_path: Path) -> xr.Dataset:
