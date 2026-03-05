@@ -143,7 +143,9 @@ El cálculo fue implementado en el script
 
 \subsection{Climatologías y análisis geostrófico (Ítems 2--4)}
 
-\textit{[Se completará con metodología de descarga, procesamiento climatológico, cálculo geostrófico y métricas de comparación.]}
+Para los ítems 2--4 se dejó implementada la etapa de adquisición reproducible de ERA5 en superficie mediante el script \texttt{scripts/python/02\_download\_era5\_surface\_monthly.py}, parametrizado con el dominio y período aprobados en \texttt{scripts/python/00\_config\_mp2.py}. La consulta se definió sobre el producto \texttt{reanalysis-era5-single-levels-monthly-means}, solicitando temperatura a 2\,m, presión en superficie y componentes del viento a 10\,m, para todos los meses entre 2015 y 2024, en formato NetCDF.
+
+Con este diseño, cada ejecución guarda también el \textit{request} exacto en JSON (\texttt{data/raw/era5\_surface\_request.json}), garantizando trazabilidad metodológica desde el inicio del flujo. La descarga no se ejecutó aún en este entorno porque falta configurar las credenciales de acceso al CDS (archivo \texttt{\textasciitilde/.cdsapirc}); sin embargo, la lógica de extracción, validación de precondiciones y estructura de salida quedó completamente preparada para cerrar el ítem 2 de forma inmediata una vez se active ese acceso.
 
 \subsection{Perfil vertical regional (Ítem 5)}
 
