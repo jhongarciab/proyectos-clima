@@ -2,7 +2,7 @@
 """
 Ítem 3 — Mini Proyecto 2
 Climatologías regionales mensuales (1996–2025) para variables de superficie ERA5:
-- t2m, sp, u10, v10
+- t2m, sp, u10, v10, ws10 (derivada) 
 
 Salidas:
 - results/tables/03_climatologia_mensual.csv
@@ -26,6 +26,7 @@ VAR_META = {
     "sp": {"label": "Presión superficial", "unit_out": "hPa", "convert": lambda x: x / 100.0},
     "u10": {"label": "Viento zonal 10 m (u)", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
     "v10": {"label": "Viento meridional 10 m (v)", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
+    "ws10": {"label": "Rapidez del viento 10 m", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
 }
 
 
@@ -39,14 +40,23 @@ def compute_climatology(ds: xr.Dataset) -> pd.DataFrame:
 
     time_dim = "time" if "time" in ds.dims else "valid_time"
 
+    # Ponderación areal simple por cos(lat) para media regional
+    lat_weights = np.cos(np.deg2rad(ds["latitude"]))
+    lat_weights = lat_weights / lat_weights.mean()
+
+    # Derivada útil: rapidez del viento a 10 m
+    ws10 = np.sqrt(ds["u10"] ** 2 + ds["v10"] ** 2)
+
     for var, meta in VAR_META.items():
-        if var not in ds:
-            raise KeyError(f"Variable requerida no encontrada en NetCDF: {var}")
+        if var == "ws10":
+            da = ws10
+        else:
+            if var not in ds:
+                raise KeyError(f"Variable requerida no encontrada en NetCDF: {var}")
+            da = ds[var]
 
-        da = ds[var]
-
-        # Serie regional mensual: media espacial para cada mes del periodo completo
-        ts_region = da.mean(dim=("latitude", "longitude"), skipna=True)
+        # Serie regional mensual: media espacial ponderada (lat-lon) para cada mes del periodo completo
+        ts_region = da.weighted(lat_weights).mean(dim=("latitude", "longitude"), skipna=True)
         ts_region = meta["convert"](ts_region)
 
         # Climatología mensual + variabilidad interanual (sobre 30 eneros, 30 febreros, etc.)
@@ -70,10 +80,15 @@ def compute_climatology(ds: xr.Dataset) -> pd.DataFrame:
 
 
 def plot_climatology(df: pd.DataFrame, out_png: Path) -> None:
-    fig, axes = plt.subplots(2, 2, figsize=(12, 8), sharex=True)
-    axes = axes.ravel()
+    vars_to_plot = list(VAR_META.keys())
+    n = len(vars_to_plot)
+    ncols = 2
+    nrows = int(np.ceil(n / ncols))
 
-    for ax, var in zip(axes, VAR_META.keys()):
+    fig, axes = plt.subplots(nrows, ncols, figsize=(12, 3.6 * nrows), sharex=True)
+    axes = np.array(axes).reshape(-1)
+
+    for ax, var in zip(axes, vars_to_plot):
         d = df[df["variable"] == var].sort_values("month")
         x = d["month"].to_numpy()
         y = d["clim_mean"].to_numpy()
@@ -85,6 +100,10 @@ def plot_climatology(df: pd.DataFrame, out_png: Path) -> None:
         ax.set_xticks(MONTHS)
         ax.set_xticklabels(MONTH_LABELS, rotation=0)
         ax.grid(alpha=0.3)
+
+    # Ocultar ejes sobrantes
+    for ax in axes[n:]:
+        ax.axis("off")
 
     fig.suptitle("MP2 — Ítem 3: climatología mensual regional (1996–2025)", fontsize=12)
     fig.tight_layout()
@@ -100,9 +119,10 @@ def write_report(df: pd.DataFrame, out_md: Path) -> None:
 
     lines.append("## Metodología")
     lines.append("- Fuente: `data/raw/era5_surface_monthly_1996_2025.nc`.")
+    lines.append("- Variables: t2m, sp, u10, v10 y derivada ws10=√(u10²+v10²).")
     lines.append("- Periodo: 1996–2025 (360 meses).")
     lines.append("- Dominio: caja regional definida en el proyecto.")
-    lines.append("- Procedimiento: media espacial mensual de cada variable y luego climatología por mes calendario (enero–diciembre), reportando media y desviación estándar interanual.\n")
+    lines.append("- Procedimiento: media espacial mensual ponderada por área (peso cos(lat)) y luego climatología por mes calendario (enero–diciembre), reportando media y desviación estándar interanual.\n")
 
     lines.append("## Salidas")
     lines.append("- Tabla: `results/tables/03_climatologia_mensual.csv`")
