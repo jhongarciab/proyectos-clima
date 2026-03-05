@@ -2,10 +2,10 @@
 """
 Ítem 2 — Descarga ERA5 de superficie (promedios mensuales)
 Región: 4.0–5.5 N, -76.5 a -75.0
-Periodo: 2015–2024
+Periodo: 1996–2025
 
 Salida:
-- data/raw/era5_surface_monthly_2015_2024.nc
+- data/raw/era5_surface_monthly_1996_2025.nc
 - data/raw/era5_surface_request.json
 
 Requisitos:
@@ -56,7 +56,7 @@ def build_request(cfg) -> dict:
 def main() -> None:
     script_dir = Path(__file__).resolve().parent
     project_root = script_dir.parent.parent
-    out_nc = project_root / "data" / "raw" / "era5_surface_monthly_2015_2024.nc"
+    out_nc = project_root / "data" / "raw" / "era5_surface_monthly_1996_2025.nc"
     out_req = project_root / "data" / "raw" / "era5_surface_request.json"
 
     assert_cds_credentials()

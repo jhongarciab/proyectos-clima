@@ -36,7 +36,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\small Región Andina occidental (2015--2024)}
+\lhead{\small Región Andina occidental (1996--2025)}
 \rhead{\small Mini Proyecto 2}
 \rfoot{\thepage}
 
@@ -51,7 +51,7 @@
 		\vspace*{2cm}
 		{\LARGE \textbf{Mini Proyecto 2: Dinámica y termodinámica atmosférica regional}\\[0.5em]
 			\large Atmósfera estándar, climatologías de reanálisis\\
-			y aproximación geostrófica (2015--2024)}\\[2cm]
+			y aproximación geostrófica (1996--2025)}\\[2cm]
 		{\large Jhon García Barrera}\\[0.5em]
 		{\normalsize Física del Clima y Cambio Climático}\\[0.5em]
 		{\normalsize \today}\\[3cm]
@@ -77,7 +77,7 @@ validación de la aproximación geostrófica, y (v) comparación del perfil vert
 
 El dominio espacial del estudio se definió como una caja rectangular sobre la región andina occidental de Colombia, entre 4.0\,$^{\circ}$N y 5.5\,$^{\circ}$N de latitud, y entre -76.5\,$^{\circ}$ y -75.0\,$^{\circ}$ de longitud. Esta región incluye el entorno ampliado del Eje Cafetero y permite estimar gradientes horizontales de presión y viento con resolución suficiente para el análisis geostrófico, manteniendo al mismo tiempo un volumen de datos manejable para procesamiento local.
 
-Como fuente principal se seleccionó ERA5 (ECMWF/Copernicus), por su consistencia física, cobertura temporal continua y uso extendido en estudios atmosféricos regionales. El período climatológico adoptado fue 2015--2024, completando una ventana de diez años para asegurar estabilidad estadística en los promedios y comparabilidad con la línea de trabajo previa.
+Como fuente principal se seleccionó ERA5 (ECMWF/Copernicus), por su consistencia física, cobertura temporal continua y uso extendido en estudios atmosféricos regionales. El período climatológico adoptado fue 1996--2025, completando una ventana de treinta años para asegurar estabilidad estadística en los promedios y reducir la sensibilidad de la climatología a eventos interanuales extremos.
 
 Para superficie se definieron como variables objetivo la temperatura del aire a 2\,m ($T_{2m}$), la presión en superficie ($p_s$) y las componentes zonal y meridional del viento a 10\,m ($u_{10}, v_{10}$). Para el análisis vertical se fijaron temperatura y geopotencial en niveles de presión, con el fin de reconstruir perfiles térmicos regionales y contrastarlos posteriormente con la atmósfera estándar desarrollada en el primer ítem.
 
@@ -143,9 +143,9 @@ El cálculo fue implementado en el script
 
 \subsection{Climatologías y análisis geostrófico (Ítems 2--4)}
 
-Para los ítems 2--4 se dejó implementada la etapa de adquisición reproducible de ERA5 en superficie mediante el script \texttt{scripts/python/02\_download\_era5\_surface\_monthly.py}, parametrizado con el dominio y período aprobados en \texttt{scripts/python/00\_config\_mp2.py}. La consulta se definió sobre el producto \texttt{reanalysis-era5-single-levels-monthly-means}, solicitando temperatura a 2\,m, presión en superficie y componentes del viento a 10\,m, para todos los meses entre 2015 y 2024, en formato NetCDF.
+Para los ítems 2--4 se implementó la etapa de adquisición reproducible de ERA5 en superficie mediante el script \texttt{scripts/python/02\_download\_era5\_surface\_monthly.py}, parametrizado con el dominio y período aprobados en \texttt{scripts/python/00\_config\_mp2.py}. La consulta se definió sobre el producto \texttt{reanalysis-era5-single-levels-monthly-means}, solicitando temperatura a 2\,m, presión en superficie y componentes del viento a 10\,m, para todos los meses entre 1996 y 2025, en formato NetCDF.
 
-Con este diseño, cada ejecución guarda también el \textit{request} exacto en JSON (\texttt{data/raw/era5\_surface\_request.json}), garantizando trazabilidad metodológica desde el inicio del flujo. La descarga no se ejecutó aún en este entorno porque falta configurar las credenciales de acceso al CDS (archivo \texttt{\textasciitilde/.cdsapirc}); sin embargo, la lógica de extracción, validación de precondiciones y estructura de salida quedó completamente preparada para cerrar el ítem 2 de forma inmediata una vez se active ese acceso.
+Cada ejecución guarda además el \textit{request} exacto en JSON (\texttt{data/raw/era5\_surface\_request.json}), garantizando trazabilidad metodológica desde el inicio del flujo. La descarga se ejecutó correctamente y produjo el archivo \texttt{data/raw/era5\_surface\_monthly\_1996\_2025.nc}, con 360 pasos temporales mensuales (enero de 1996 a diciembre de 2025), malla espacial de 7\,$\times$\,7 celdas sobre la región seleccionada y las cuatro variables requeridas por el enunciado ($t2m$, $sp$, $u10$, $v10$).
 
 \subsection{Perfil vertical regional (Ítem 5)}
 

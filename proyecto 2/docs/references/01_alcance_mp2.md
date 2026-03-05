@@ -11,7 +11,7 @@
 - **ERA5** (ECMWF/Copernicus Climate Data Store)
 
 ## Ventana temporal
-- **2015–2024** (10 años)
+- **1996–2025** (30 años)
 
 ## Variables objetivo
 ### Superficie (ítems 2, 3 y 4)

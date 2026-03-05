@@ -4,8 +4,8 @@
 AREA = [5.5, -76.5, 4.0, -75.0]
 
 # Período aprobado
-YEAR_START = 2015
-YEAR_END = 2024
+YEAR_START = 1996
+YEAR_END = 2025
 YEARS = [str(y) for y in range(YEAR_START, YEAR_END + 1)]
 
 # Variables de superficie (ERA5 monthly means)
