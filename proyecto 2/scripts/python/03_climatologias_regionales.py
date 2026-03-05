@@ -14,6 +14,8 @@ Salidas:
 from __future__ import annotations
 
 from pathlib import Path
+from urllib.request import urlopen
+import ssl
 import numpy as np
 import pandas as pd
 import xarray as xr
@@ -29,6 +31,39 @@ VAR_META = {
     "v10": {"label": "Viento meridional 10 m (v)", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
     "ws10": {"label": "Rapidez del viento 10 m", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
 }
+
+CITIES = {
+    "Pereira": (4.8143, -75.6946),
+    "Armenia": (4.5339, -75.6811),
+    "Manizales": (5.0703, -75.5138),
+    "Ibagué": (4.4389, -75.2322),
+}
+
+
+def _download_basemap(lon_min: float, lat_min: float, lon_max: float, lat_max: float, out_png: Path) -> Path | None:
+    """Descarga fondo de mapa (ArcGIS World Topo) para el bbox en EPSG:4326."""
+    url = (
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/export"
+        f"?bbox={lon_min},{lat_min},{lon_max},{lat_max}"
+        "&bboxSR=4326&imageSR=4326&size=1200,900&format=png&f=image"
+    )
+    try:
+        out_png.parent.mkdir(parents=True, exist_ok=True)
+        ctx = ssl._create_unverified_context()
+        with urlopen(url, context=ctx, timeout=30) as resp:
+            data = resp.read()
+        out_png.write_bytes(data)
+        return out_png if out_png.exists() and out_png.stat().st_size > 0 else None
+    except Exception:
+        return None
+
+
+def _annotate_cities(ax, lon_min: float, lat_min: float, lon_max: float, lat_max: float) -> None:
+    for name, (lat, lon) in CITIES.items():
+        if lat_min <= lat <= lat_max and lon_min <= lon <= lon_max:
+            ax.scatter(lon, lat, s=35, c="white", edgecolors="black", zorder=6)
+            ax.text(lon + 0.03, lat + 0.02, name, fontsize=8, color="black", zorder=7,
+                    bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.75))
 
 
 def _open_dataset(nc_path: Path) -> xr.Dataset:
@@ -121,21 +156,28 @@ def plot_climatology_monthly(df: pd.DataFrame, out_png: Path) -> None:
     plt.close(fig)
 
 
-def plot_map_pressure_wind(fields: dict[str, xr.DataArray], out_png: Path) -> None:
+def plot_map_pressure_wind(fields: dict[str, xr.DataArray], out_png: Path, basemap_path: Path | None = None) -> None:
     lon = fields["sp"]["longitude"].values
     lat = fields["sp"]["latitude"].values
     sp = fields["sp"].values
     u = fields["u10"].values
     v = fields["v10"].values
 
+    lon_min, lon_max = float(np.min(lon)), float(np.max(lon))
+    lat_min, lat_max = float(np.min(lat)), float(np.max(lat))
+
     fig, ax = plt.subplots(figsize=(8, 6))
 
-    cf = ax.contourf(lon, lat, sp, levels=12, cmap="viridis")
+    if basemap_path and basemap_path.exists():
+        img = plt.imread(basemap_path)
+        ax.imshow(img, extent=[lon_min, lon_max, lat_min, lat_max], origin="upper", alpha=0.85, zorder=0)
+
+    cf = ax.contourf(lon, lat, sp, levels=12, cmap="viridis", alpha=0.52, zorder=2)
     cbar = fig.colorbar(cf, ax=ax, shrink=0.95)
     cbar.set_label("Presión superficial climatológica [hPa]")
 
     # Isobaras
-    cs = ax.contour(lon, lat, sp, levels=8, colors="white", linewidths=1.0)
+    cs = ax.contour(lon, lat, sp, levels=8, colors="white", linewidths=1.2, zorder=4)
     ax.clabel(cs, inline=True, fontsize=8, fmt="%.1f")
 
     # Viento (submuestreo para legibilidad)
@@ -148,12 +190,17 @@ def plot_map_pressure_wind(fields: dict[str, xr.DataArray], out_png: Path) -> No
         color="black",
         scale=8,
         width=0.003,
+        zorder=5,
     )
     ax.quiverkey(q, 0.90, -0.08, 1.0, "1 m s$^{-1}$", labelpos="E")
+
+    _annotate_cities(ax, lon_min, lat_min, lon_max, lat_max)
 
     ax.set_title("MP2 Ítem 3 — Mapa climatológico: presión + isobaras + viento 10 m")
     ax.set_xlabel("Longitud [°]")
     ax.set_ylabel("Latitud [°]")
+    ax.set_xlim(lon_min, lon_max)
+    ax.set_ylim(lat_min, lat_max)
     ax.grid(alpha=0.25)
 
     fig.tight_layout()
@@ -161,22 +208,34 @@ def plot_map_pressure_wind(fields: dict[str, xr.DataArray], out_png: Path) -> No
     plt.close(fig)
 
 
-def plot_map_temperature(fields: dict[str, xr.DataArray], out_png: Path) -> None:
+def plot_map_temperature(fields: dict[str, xr.DataArray], out_png: Path, basemap_path: Path | None = None) -> None:
     lon = fields["t2m"]["longitude"].values
     lat = fields["t2m"]["latitude"].values
     t2m = fields["t2m"].values
 
+    lon_min, lon_max = float(np.min(lon)), float(np.max(lon))
+    lat_min, lat_max = float(np.min(lat)), float(np.max(lat))
+
     fig, ax = plt.subplots(figsize=(8, 6))
-    cf = ax.contourf(lon, lat, t2m, levels=12, cmap="plasma")
+
+    if basemap_path and basemap_path.exists():
+        img = plt.imread(basemap_path)
+        ax.imshow(img, extent=[lon_min, lon_max, lat_min, lat_max], origin="upper", alpha=0.85, zorder=0)
+
+    cf = ax.contourf(lon, lat, t2m, levels=12, cmap="plasma", alpha=0.52, zorder=2)
     cbar = fig.colorbar(cf, ax=ax, shrink=0.95)
     cbar.set_label("Temperatura 2 m climatológica [°C]")
 
-    cs = ax.contour(lon, lat, t2m, levels=8, colors="k", linewidths=0.7, alpha=0.6)
+    cs = ax.contour(lon, lat, t2m, levels=8, colors="k", linewidths=0.8, alpha=0.7, zorder=4)
     ax.clabel(cs, inline=True, fontsize=8, fmt="%.2f")
+
+    _annotate_cities(ax, lon_min, lat_min, lon_max, lat_max)
 
     ax.set_title("MP2 Ítem 3 — Mapa climatológico: temperatura 2 m")
     ax.set_xlabel("Longitud [°]")
     ax.set_ylabel("Latitud [°]")
+    ax.set_xlim(lon_min, lon_max)
+    ax.set_ylim(lat_min, lat_max)
     ax.grid(alpha=0.25)
 
     fig.tight_layout()
@@ -240,9 +299,16 @@ def main() -> None:
 
     fields = compute_annual_mean_fields(ds)
 
+    lon = fields["sp"]["longitude"].values
+    lat = fields["sp"]["latitude"].values
+    lon_min, lon_max = float(np.min(lon)), float(np.max(lon))
+    lat_min, lat_max = float(np.min(lat)), float(np.max(lat))
+    basemap_path = project_root / "results" / "plots" / "03_basemap_arcgis.png"
+    basemap_path = _download_basemap(lon_min, lat_min, lon_max, lat_max, basemap_path)
+
     plot_climatology_monthly(df, out_series_png)
-    plot_map_pressure_wind(fields, out_map_sp_uv_png)
-    plot_map_temperature(fields, out_map_t_png)
+    plot_map_pressure_wind(fields, out_map_sp_uv_png, basemap_path=basemap_path)
+    plot_map_temperature(fields, out_map_t_png, basemap_path=basemap_path)
 
     write_report(df, out_md)
 
