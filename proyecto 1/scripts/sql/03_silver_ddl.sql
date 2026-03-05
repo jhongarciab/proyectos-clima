@@ -49,7 +49,7 @@ WHERE
     -- Solo estaciones representativas de Pereira urbana
     codigoestacion IN ('0026125710', '0026125508', '0026135501')
     -- Período de análisis
-    AND fecha BETWEEN '2015-01-01' AND '2025-12-31';
+    AND fecha BETWEEN '2016-01-01' AND '2025-12-31';
 
 -- Índices para consultas posteriores
 CREATE INDEX ON silver.ideam_temperature (fecha);
@@ -93,7 +93,7 @@ END AS valor_diario_pct
 FROM bronze.staging_ideam_humidity
 WHERE
     codigoestacion IN ('0026125710', '0026125508', '0026135501')
-    AND fecha BETWEEN '2015-01-01' AND '2025-12-31';
+    AND fecha BETWEEN '2016-01-01' AND '2025-12-31';
 
 CREATE INDEX ON silver.ideam_humidity (fecha);
 CREATE INDEX ON silver.ideam_humidity (codigoestacion);
@@ -135,7 +135,7 @@ SELECT
 FROM bronze.staging_ideam_precipitation
 WHERE
     codigoestacion IN ('0026125710', '0026125508', '0026135501')
-    AND fecha BETWEEN '2015-01-01' AND '2025-12-31';
+    AND fecha BETWEEN '2016-01-01' AND '2025-12-31';
 
 CREATE INDEX ON silver.ideam_precipitation (fecha);
 CREATE INDEX ON silver.ideam_precipitation (codigoestacion);
@@ -175,7 +175,7 @@ SELECT
 FROM bronze.staging_nasa_daily
 WHERE
     -- Período de análisis (year basta, doy garantiza integridad)
-    year BETWEEN 2015 AND 2025
+    year BETWEEN 2016 AND 2025
 ORDER BY fecha;
 
 CREATE INDEX ON silver.nasa_daily (fecha);
@@ -200,7 +200,7 @@ FROM silver.nasa_daily;
 
 WITH calendario AS (
     SELECT generate_series(
-        '2015-01-01'::date,
+        '2016-01-01'::date,
         '2025-12-31'::date,
         '1 day'::interval
     )::date AS fecha

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  24 FEB 2026 18:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  26 FEB 2026 22:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -22,6 +22,11 @@ File: size12.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen141
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
@@ -448,15 +453,20 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
+
+
+Package natbib Warning: The `cite' package should not be used
+(natbib)                with natbib. Use option `sort' instead.
+
 \bibhang=\skip69
 \bibsep=\skip70
 LaTeX Info: Redefining \cite on input line 694.
+LaTeX Info: Redefining \citenum on input line 708.
 \c@NAT@ctr=\count309
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 46
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 47
 .
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/lm/t1lmr.fd
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -470,26 +480,26 @@ LaTeX Info: Redefining \% on input line 11.
 )
 \openout1 = `entregable.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Info: Redefining \. on input line 46.
-LaTeX Info: Redefining \% on input line 46.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Info: Redefining \. on input line 47.
+LaTeX Info: Redefining \% on input line 47.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -558,55 +568,55 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 46.
+Package hyperref Info: Link coloring ON on input line 47.
 
 (./entregable.out) (./entregable.out)
 \@outlinefile=\write3
 \openout3 = `entregable.out'.
 
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
-9.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6
+0.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
-9.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 6
+0.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 5
-9.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 6
+0.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-59.
+60.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-59.
+60.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 59.
+(Font)              <10.95> on input line 60.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 59.
+(Font)              <8> on input line 60.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 59.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 59.
+(Font)              <6> on input line 60.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 60.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 59.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 60.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -639,17 +649,17 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.63 	\newpage
+l.64 	\newpage
                [1]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 7
-0.
+1.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<fig1-clima.png, id=64, 1194.4625pt x 764.8575pt>
+<fig1-clima.png, id=77, 1194.4625pt x 764.8575pt>
 File: fig1-clima.png Graphic file (type png)
 <use fig1-clima.png>
-Package pdftex.def Info: fig1-clima.png  used on input line 92.
+Package pdftex.def Info: fig1-clima.png  used on input line 113.
 (pdftex.def)             Requested size: 308.71106pt x 197.6795pt.
 
 
@@ -689,11 +699,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-<../../results/plots/01_series_diarias.png, id=93, 1001.54175pt x 711.8595pt>
+<../../results/plots/01_series_diarias.png, id=115, 1001.54175pt x 711.8595pt>
 File: ../../results/plots/01_series_diarias.png Graphic file (type png)
 <use ../../results/plots/01_series_diarias.png>
 Package pdftex.def Info: ../../results/plots/01_series_diarias.png  used on inp
-ut line 261.
+ut line 284.
 (pdftex.def)             Requested size: 396.91325pt x 282.11012pt.
 
 
@@ -705,11 +715,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [6 <../../results/plots/01_series_diarias.png>]
-<../../results/plots/02_series_mensuales.png, id=101, 1004.553pt x 711.8595pt>
+<../../results/plots/02_series_mensuales.png, id=123, 1004.553pt x 711.8595pt>
 File: ../../results/plots/02_series_mensuales.png Graphic file (type png)
 <use ../../results/plots/02_series_mensuales.png>
 Package pdftex.def Info: ../../results/plots/02_series_mensuales.png  used on i
-nput line 282.
+nput line 304.
 (pdftex.def)             Requested size: 396.91325pt x 281.26288pt.
 
 
@@ -721,31 +731,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [7 <../../results/plots/02_series_mensuales.png>]
-<../../results/plots/04a_estacionales_temp_hum.png, id=109, 859.41075pt x 569.7
+<../../results/plots/04a_estacionales_temp_hum.png, id=133, 859.41075pt x 569.7
 285pt>
 File: ../../results/plots/04a_estacionales_temp_hum.png Graphic file (type png)
 
 <use ../../results/plots/04a_estacionales_temp_hum.png>
 Package pdftex.def Info: ../../results/plots/04a_estacionales_temp_hum.png  use
-d on input line 312.
+d on input line 325.
 (pdftex.def)             Requested size: 396.91325pt x 263.12149pt.
-
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[8 <../../results/plots/04a_estacionales_temp_hum.png>]
-<../../results/plots/04b_bimodal_precipitacion.png, id=117, 932.283pt x 357.736
+<../../results/plots/04b_bimodal_precipitacion.png, id=136, 932.283pt x 357.736
 5pt>
 File: ../../results/plots/04b_bimodal_precipitacion.png Graphic file (type png)
 
 <use ../../results/plots/04b_bimodal_precipitacion.png>
 Package pdftex.def Info: ../../results/plots/04b_bimodal_precipitacion.png  use
-d on input line 339.
+d on input line 351.
 (pdftex.def)             Requested size: 396.91325pt x 152.3062pt.
 
 
@@ -756,13 +756,22 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
+[8 <../../results/plots/04a_estacionales_temp_hum.png>]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
 [9 <../../results/plots/04b_bimodal_precipitacion.png>]
-<../../results/plots/05_anomalias_diarias.png, id=126, 1003.95074pt x 711.8595p
+<../../results/plots/05_anomalias_diarias.png, id=164, 1003.95074pt x 711.8595p
 t>
 File: ../../results/plots/05_anomalias_diarias.png Graphic file (type png)
 <use ../../results/plots/05_anomalias_diarias.png>
 Package pdftex.def Info: ../../results/plots/05_anomalias_diarias.png  used on 
-input line 388.
+input line 400.
 (pdftex.def)             Requested size: 396.91325pt x 281.43668pt.
 
 
@@ -774,12 +783,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [10 <../../results/plots/05_anomalias_diarias.png>]
-<../../results/plots/06_anomalias_mensuales.png, id=133, 1003.95074pt x 711.859
+<../../results/plots/06_anomalias_mensuales.png, id=173, 1003.95074pt x 711.859
 5pt>
 File: ../../results/plots/06_anomalias_mensuales.png Graphic file (type png)
 <use ../../results/plots/06_anomalias_mensuales.png>
 Package pdftex.def Info: ../../results/plots/06_anomalias_mensuales.png  used o
-n input line 409.
+n input line 420.
 (pdftex.def)             Requested size: 396.91325pt x 281.43668pt.
 
 
@@ -792,11 +801,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [11{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <../../res
 ults/plots/06_anomalias_mensuales.png>]
-<../../results/plots/07_anomalias_anuales.png, id=142, 860.013pt x 711.8595pt>
+<../../results/plots/07_anomalias_anuales.png, id=190, 860.013pt x 711.8595pt>
 File: ../../results/plots/07_anomalias_anuales.png Graphic file (type png)
 <use ../../results/plots/07_anomalias_anuales.png>
 Package pdftex.def Info: ../../results/plots/07_anomalias_anuales.png  used on 
-input line 441.
+input line 450.
 (pdftex.def)             Requested size: 396.91325pt x 328.53468pt.
 
 
@@ -808,11 +817,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [12 <../../results/plots/07_anomalias_anuales.png>]
-<../../results/plots/08_histogramas.png, id=152, 1003.3485pt x 853.38824pt>
+<../../results/plots/08_histogramas.png, id=203, 1003.3485pt x 853.38824pt>
 File: ../../results/plots/08_histogramas.png Graphic file (type png)
 <use ../../results/plots/08_histogramas.png>
 Package pdftex.def Info: ../../results/plots/08_histogramas.png  used on input 
-line 473.
+line 476.
 (pdftex.def)             Requested size: 396.91325pt x 337.586pt.
 
 
@@ -824,20 +833,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [13 <../../results/plots/08_histogramas.png>]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[14]
-<../../results/plots/09_fourier.png, id=168, 1003.95074pt x 853.38824pt>
+<../../results/plots/09_fourier.png, id=217, 1003.95074pt x 853.38824pt>
 File: ../../results/plots/09_fourier.png Graphic file (type png)
 <use ../../results/plots/09_fourier.png>
 Package pdftex.def Info: ../../results/plots/09_fourier.png  used on input line
- 532.
+ 536.
 (pdftex.def)             Requested size: 396.91325pt x 337.39067pt.
 
 
@@ -848,12 +848,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
+[14]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
 [15 <../../results/plots/09_fourier.png>]
-<../../results/plots/10_fourier_zoom.png, id=174, 1003.95074pt x 853.38824pt>
+<../../results/plots/10_fourier_zoom.png, id=235, 1003.95074pt x 853.38824pt>
 File: ../../results/plots/10_fourier_zoom.png Graphic file (type png)
 <use ../../results/plots/10_fourier_zoom.png>
 Package pdftex.def Info: ../../results/plots/10_fourier_zoom.png  used on input
- line 567.
+ line 571.
 (pdftex.def)             Requested size: 396.91325pt x 337.39067pt.
 
 
@@ -882,7 +891,49 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[18] (./entregable.aux
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 677--681
+\T1/lmtt/m/n/12 co / Ambiente-[]y-[]Desarrollo-[]Sostenible / Temperatura-[]Amb
+iente-[]del-[]Aire /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 683--687
+\T1/lmtt/m/n/12 Ambiente-[]y-[]Desarrollo-[]Sostenible / Humedad-[]del-[]Aire /
+ uext-[]mhny / about _
+ []
+
+
+Underfull \hbox (badness 4726) in paragraph at lines 689--693
+[]\T1/lmr/m/n/12 Instituto de Hi-dro-lo-gía, Me-teo-ro-lo-gía y Es-tu-dios Am-b
+ien-ta-les (IDEAM).
+ []
+
+
+Underfull \hbox (badness 1881) in paragraph at lines 689--693
+\T1/lmr/m/n/12 Pre-ci-pi-ta-ción. Da-tos Abier-tos Co-lom-bia, 2025. [][]$\T1/l
+mtt/m/n/12 https : / / www . datos . gov . co /
+ []
+
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[19]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[20] (./entregable.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -890,33 +941,28 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-Package rerunfilecheck Warning: File `entregable.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `entregable.out':
-(rerunfilecheck)             Before: A8472A5CB492B0115CF65B2775AE3834;1545
-(rerunfilecheck)             After:  768F2752E790C18578D06A33F358369F;1649.
+Package rerunfilecheck Info: File `entregable.out' has not changed.
+(rerunfilecheck)             Checksum: 768F2752E790C18578D06A33F358369F;1649.
  ) 
 Here is how much of TeX's memory you used:
- 14942 strings out of 473190
- 239093 string characters out of 5715801
- 659822 words of memory out of 5000000
- 37941 multiletter control sequences out of 15000+600000
- 603876 words of font info for 70 fonts, out of 8000000 for 9000
+ 15093 strings out of 473190
+ 241608 string characters out of 5715801
+ 659532 words of memory out of 5000000
+ 38071 multiletter control sequences out of 15000+600000
+ 608456 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,13n,79p,1014b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,516b,614s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive
 /2025/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2025/texmf
--dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025/texmf-dist/font
-s/type1/public/lm/lmtt10.pfb>
-Output written on entregable.pdf (19 pages, 4092847 bytes).
+-dist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2025/texmf-dist/font
+s/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
+blic/lm/lmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lm
+tt12.pfb>
+Output written on entregable.pdf (21 pages, 4149853 bytes).
 PDF statistics:
- 235 PDF objects out of 1000 (max. 8388607)
- 178 compressed objects within 2 object streams
- 45 named destinations out of 1000 (max. 500000)
- 128 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 347 PDF objects out of 1000 (max. 8388607)
+ 283 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 136 words of extra memory for PDF output out of 10000 (max. 10000000)
 

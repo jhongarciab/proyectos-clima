@@ -1,5 +1,5 @@
 \documentclass[12pt, a4paper]{article}
-
+\usepackage{cite}
 % --- Codificación y lenguaje ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -36,7 +36,8 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{\small Análisis Climático — Pereira 2015–2025}
+\lhead{\small Pereira 2016--2025}
+\rhead{\small Mini Proyecto 1}
 \rfoot{\thepage}
 
 % --- Bibliografía ---
@@ -50,8 +51,8 @@
 		\vspace*{2cm}
 		{\LARGE \textbf{Análisis Climático de Pereira, Risaralda}\\[0.5em]
 			\large Comparación entre datos observacionales IDEAM\\
-			y reanálisis NASA POWER (2015–2025)}\\[2cm]
-		{\large Jhon García}\\[0.5em]
+			y reanálisis NASA POWER (2016–2025)}\\[2cm]
+		{\large Jhon García Barrera}\\[0.5em]
 		{\normalsize Física del Clima y Cambio Climático}\\[0.5em]
 		{\normalsize \today}\\[3cm]
 		\vfill
@@ -66,26 +67,46 @@
 
 Pereira es una ciudad intermedia ubicada en el flanco occidental de la cordillera
 Central de los Andes colombianos, a una altitud de aproximadamente 1\,400~m sobre el
-nivel del mar y en el corazón del llamado Eje Cafetero. Su posición geográfica,
-4°48'N, 75°41'W, la sitúa en plena zona ecuatorial andina, donde la orografía, la
+nivel del mar y en el corazón del llamado Eje Cafetero. Su posición geográfica
+(4°48'N, 75°41'W) la sitúa en plena zona ecuatorial andina, donde la orografía, la
 humedad proveniente del Pacífico y la influencia de la Amazonía convergen para producir
-un clima cálido y húmedo con escasa variación térmica a lo largo del año. Por esta
-combinación de factores (altitud media, exposición a masas de aire húmedo, ubicación
-en una región de alta densidad poblacional y actividad agrícola) Pereira constituye
-un caso de estudio representativo del clima de la montaña tropical colombiana y un
-punto de referencia útil para evaluar la capacidad de distintas fuentes de datos de
-capturar la variabilidad climática local.
+un clima cálido y húmedo con escasa variación térmica a lo largo del año \cite{poveda2004}.
+Por esta combinación de factores (altitud media, exposición a masas de aire húmedo,
+ubicación en una región de alta densidad poblacional y actividad agrícola) Pereira
+constituye un caso de estudio representativo del clima de la montaña tropical colombiana
+y un punto de referencia útil para evaluar la capacidad de distintas fuentes de datos
+de capturar la variabilidad climática local \cite{urrea2019}.
 
-Con ese propósito, el análisis cubre el período 2016--2025 y emplea dos fuentes de datos de naturaleza muy distinta. La primera son las observaciones directas de tres estaciones meteorológicas del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM) ubicadas en el área urbana y periurbana de Pereira: el Aeropuerto Internacional Matecaña, la estación La Catalina y El Pílamo, ubicadas a 1\,342, 1\,321 y 1\,113~metros sobre el nivel del mar, respectivamente. Los registros originales, con resolución de cinco minutos, fueron descargados mediante la API de Datos Abiertos, del gobierno nacional, el cual recoge datos hidrometeorológicos crudos mediante una red de estaciones del IDEAM y, fueron agregados a escala diaria promediando temperatura y humedad relativa, y acumulando la precipitación. El promedio entre estaciones con dato disponible para cada fecha constituye la serie observacional representativa de Pereira utilizada en el análisis. 
+Con ese propósito, el análisis cubre el período 2016--2025 y emplea dos fuentes de
+datos de naturaleza muy distinta. La primera son las observaciones directas de tres
+estaciones meteorológicas del Instituto de Hidrología, Meteorología y Estudios
+Ambientales (IDEAM) ubicadas en el área urbana y periurbana de Pereira: el Aeropuerto
+Internacional Matecaña, la estación La Catalina y El Pílamo, ubicadas a 1\,342,
+1\,321 y 1\,113~metros sobre el nivel del mar, respectivamente. Los registros
+originales, con resolución de cinco minutos, fueron descargados mediante la API de
+Datos Abiertos del gobierno nacional \cite{ideam_temperatura, ideam_humedad,
+	ideam_precipitacion}, la cual recoge datos hidrometeorológicos crudos mediante una
+red de estaciones del IDEAM, y fueron agregados a escala diaria promediando temperatura
+y humedad relativa, y acumulando la precipitación. El promedio entre estaciones con
+dato disponible para cada fecha constituye la serie observacional representativa de
+Pereira utilizada en el análisis.
 
-La segunda fuente es el proyecto NASA POWER, que provee datos diarios derivados del modelo de reanálisis MERRA-2 para cualquier punto del globo. Se utilizó la celda de rejilla centrada en las coordenadas 4.8143°N, 75.7446°W, como se puede observar en la Figura \ref{fig:nasa:power}, con resolución espacial de 0.5° $\times$ 0.625° en latitud y longitud. La elevación promedio que MERRA-2 asigna a esta celda es de 2\,138~metros sobre el nivel del mar, valor sensiblemente superior a la altitud real de Pereira porque el modelo integra la topografía de una región extensa que incluye zonas de mayor elevación de la cordillera.
+La segunda fuente es el proyecto NASA POWER \cite{nasa_power}, que provee datos
+diarios derivados del modelo de reanálisis MERRA-2 \cite{gelaro2017, stackhouse2018}
+para cualquier punto del globo. Se utilizó la celda de rejilla centrada en las
+coordenadas 4.8143°N, 75.7446°W, como se puede observar en la Figura
+\ref{fig:nasa:power}, con resolución espacial de 0.5°~$\times$~0.625° en latitud y
+longitud. La elevación promedio que MERRA-2 asigna a esta celda es de 2\,138~metros
+sobre el nivel del mar, valor sensiblemente superior a la altitud real de Pereira
+porque el modelo integra la topografía de una región extensa que incluye zonas de
+mayor elevación de la cordillera.
 
 Los datos de ambas fuentes fueron procesados mediante un flujo de limpieza y
 transformación implementado en PostgreSQL, en el que se identificaron y corrigieron
-valores centinela, errores de sensor y registros fuera de rango físicamente plausible. A partir de estas series
-limpias y continuas se analiza la climatología base de Pereira, su variabilidad
-interanual, la señal de eventos ENSO y las periodicidades dominantes mediante análisis
-espectral.
+valores centinela, errores de sensor y registros fuera de rango físicamente plausible.
+A partir de estas series limpias y continuas se analiza la climatología base de
+Pereira, su variabilidad interanual, la señal de eventos ENSO \cite{poveda2011} y
+las periodicidades dominantes mediante análisis espectral.
 
 \begin{figure}[ht]
 	\centering
@@ -184,7 +205,7 @@ antes de ser utilizados en el análisis. El primero es de nomenclatura: tres de 
 estaciones seleccionadas aparecen bajo dos nombres distintos en la API (producto
 de renombramientos administrativos en distintos momentos del período) pero comparten
 el mismo código de estación. Estos registros se trataron como una única serie continua,
-identificando cada estación exclusivamente por su código. El segundo problema son los valores centinela. En temperatura y humedad relativa se
+identificando cada estación exclusivamente por su código; el segundo problema son los valores centinela. En temperatura y humedad relativa se
 encontraron registros con valor exactamente igual a cero, físicamente imposibles para
 las condiciones climáticas de Pereira, que fueron convertidos a nulo. En la estación
 Matecaña se encontraron adicionalmente registros de humedad relativa inferiores al
@@ -199,7 +220,9 @@ Una vez aplicadas estas correcciones, los valores faltantes en la serie IDEAM fu
 imputados mediante métodos estadísticos ajustados a la distribución de cada variable:
 distribución Gamma para temperatura, modelo Bernoulli combinado con Gamma para
 precipitación (que distingue entre días secos y lluviosos) y remuestreo bootstrap
-para humedad relativa. El volumen de datos imputados fue de 483 registros en
+para humedad relativa. Los Q-Q plots, los valores del estadístico KS y
+los AIC por variable y distribución candidata están disponibles en el repositorio
+del proyecto. El volumen de datos imputados fue de 483 registros en
 temperatura (13.2\% de la serie), 979 en precipitación (26.8\%) y 612 en humedad
 relativa (16.8\%), sobre un total de 3\,653 días en el período de análisis.
 
@@ -231,7 +254,7 @@ faltantes en el período de análisis.
 	\end{tabular}
 \end{table}
 
-El flujo completo de procesamiento, desde la ingesta de los archivos crudos hasta
+El flujo completo de procesamiento, con el fin de garantizar trazabilidad y reproducibilidad desde la ingesta de los archivos crudos hasta
 la generación de las series diarias limpias, fue implementado siguiendo
 una arquitectura de capas: una capa de almacenamiento crudo sin modificaciones, una
 capa de limpieza y estandarización, y una capa analítica final con las series continuas
@@ -250,18 +273,17 @@ durante todo el período, separadas por una brecha de aproximadamente cinco a se
 grados centígrados que se mantiene constante año tras año. Este desplazamiento no
 refleja un error de medición sino una diferencia altitudinal real entre las estaciones
 de superficie, ubicadas entre 1\,113 y 1\,342~m sobre el nivel del mar, y la elevación
-promedio de la celda MERRA-2, que integra una región que alcanza los 2\,138~m. Más
-allá de ese offset, ambas fuentes reproducen, aparentemente, la misma variabilidad temporal: los
-mismos episodios de calentamiento, los mismos períodos fríos, la misma ausencia de
-una estacionalidad térmica marcada, característica definitoria del clima ecuatorial
-andino.
+promedio de la celda MERRA-2, que integra una región que alcanza los 2\,138~m
+\cite{gelaro2017}. Más allá de ese offset, ambas fuentes reproducen
+la misma variabilidad temporal: los mismos episodios de calentamiento, los mismos
+períodos fríos, la misma ausencia de una estacionalidad térmica marcada, característica
+definitoria del clima ecuatorial andino.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/01_series_diarias.png}
 	\caption{Series de tiempo diarias de temperatura (°C), precipitación (mm/día) y
-		humedad relativa (\%) para Pereira 2016--2025. Azul: IDEAM (promedio de estaciones).
-		Rojo: NASA POWER (reanálisis MERRA-2).}
+		humedad relativa (\%) para Pereira 2016--2025.}
 	\label{fig:series_diarias}
 \end{figure}
 
@@ -281,11 +303,9 @@ elevada, coherente con su representación de condiciones regionales promediadas.
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/02_series_mensuales.png}
 	\caption{Series de tiempo mensuales de temperatura (°C), precipitación (mm/mes)
-		y humedad relativa (\%) para Pereira 2016--2025. La precipitación mensual
-		corresponde a la suma de los valores diarios. Azul: IDEAM. Rojo: NASA POWER.}
+		y humedad relativa (\%) para Pereira 2016--2025.}
 	\label{fig:series_mensuales}
 \end{figure}
-
 La Figura~\ref{fig:series_mensuales} suaviza el ruido diario al agregar los datos
 a escala mensual, permitiendo leer con mayor claridad la estructura estacional del
 clima de Pereira. La temperatura mensual del IDEAM oscila entre aproximadamente
@@ -293,84 +313,76 @@ clima de Pereira. La temperatura mensual del IDEAM oscila entre aproximadamente
 ciertos años presentan meses consistentemente más cálidos o más fríos que la media,
 señal que se desarrolla en detalle en la sección de anomalías. Lo más llamativo es
 que el rango de variación térmica dentro de un año es apenas comparable al de la
-variabilidad interanual, lo que nos habla que en Pereira el concepto de estación
-térmica carece de significado práctico.
-
-La precipitación mensual es, con diferencia, la variable más ruidosa y la que
+variabilidad interanual, lo que sugiere que en Pereira el concepto de estación
+térmica carece de significado práctico \cite{poveda2004}. La precipitación mensual es, con diferencia, la variable más ruidosa y la que
 acumula mayor variabilidad tanto estacional como interanual. Ambas fuentes dibujan
-el mismo esqueleto bimodal (dos crestas separadas por dos valles) pero con
-amplitudes distintas: el IDEAM registra eventos mensuales que superan los 400~mm
-mientras que NASA POWER raramente excede los 350~mm. Los meses de enero y febrero
-se perfilan consistentemente como los más secos del año en ambas fuentes, y los meses
-de octubre y noviembre como los más lluviosos. La humedad relativa mensual refleja
-fielmente este ciclo: sube durante las temporadas lluviosas y desciende en las secas,
-con el episodio más notable siendo el descenso sostenido de IDEAM durante 2019--2020,
-que contrasta con la estabilidad de NASA POWER en el mismo período.
+el mismo esqueleto bimodal (dos crestas separadas por dos valles) \cite{urrea2019}
+pero con amplitudes distintas: el IDEAM registra eventos mensuales que superan los
+400~mm mientras que NASA POWER raramente excede los 350~mm. 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/04a_estacionales_temp_hum.png}
 	\caption{Promedios estacionales de temperatura (°C) y humedad relativa (\%)
-		para las cuatro estaciones del ciclo bimodal del Eje Cafetero, período 2016--2025.
-		Barras sólidas: IDEAM. Barras rayadas: NASA POWER.}
+		para las cuatro estaciones del ciclo bimodal del Eje Cafetero, período 2016--2025.}
 	\label{fig:estacionales_temp_hum}
 \end{figure}
-
 El patrón bimodal queda expuesto con mayor claridad al promediar las variables por
 estación climática. La Figura~\ref{fig:estacionales_temp_hum} muestra los promedios
 estacionales de temperatura y humedad relativa para las cuatro estaciones del Eje
 Cafetero: Seco~1 (diciembre--febrero), Lluvioso~1 (marzo--mayo), Seco~2
-(junio--agosto) y Lluvioso~2 (septiembre--noviembre). La temperatura confirma su
-notable estabilidad estacional: la diferencia entre la estación más cálida y la más
-fresca no supera 0.5~°C en IDEAM, con Seco~1 siendo marginalmente el período más
-cálido (22.5~°C) y Lluvioso~2 el más fresco (22.0~°C). NASA POWER replica este
-patrón a su nivel altitudinal, oscilando entre 16.2 y 16.7~°C con la misma
-estructura relativa entre estaciones. La humedad relativa sí exhibe una respuesta estacional reconocible, aunque moderada.
-IDEAM muestra su valor más alto en Lluvioso~1 (80\%) y más bajo en Seco~1 (76\%),
-con una diferencia entre estaciones de apenas cuatro puntos porcentuales. NASA POWER
-presenta valores consistentemente más altos (85--87\%) y con aún menor variación
-estacional (2\%), reflejo de su menor sensibilidad a los extremos locales. La
-concordancia entre fuentes en la dirección del cambio estacional (ambas identifican
-Lluvioso~1 como el período más húmedo y Seco~1 como el más seco) es un resultado
-positivo que valida la coherencia física de ambos conjuntos de datos.
+(junio--agosto) y Lluvioso~2 (septiembre--noviembre).
+La temperatura confirma su notable estabilidad estacional: la diferencia entre la
+estación más cálida y la más fresca no supera 0.5~°C en IDEAM, con Seco~1 siendo
+marginalmente el período más cálido (22.5~°C) y Lluvioso~2 el más fresco (22.0~°C).
+NASA POWER replica este patrón a su nivel altitudinal, oscilando entre 16.2 y
+16.7~°C con la misma estructura relativa entre estaciones. La humedad relativa sí
+exhibe una respuesta estacional reconocible, aunque moderada. IDEAM muestra su valor
+más alto en Lluvioso~1 (80\%) y más bajo en Seco~1 (76\%), con una diferencia entre
+estaciones de apenas cuatro puntos porcentuales. NASA POWER presenta valores
+consistentemente más altos (85--87\%) y con aún menor variación estacional (2\%),
+reflejo de su menor sensibilidad a los extremos locales. La concordancia entre fuentes
+en la dirección del cambio estacional (ambas identifican Lluvioso~1 como el período
+más húmedo y Seco~1 como el más seco) es un resultado positivo que valida la
+coherencia física de ambos conjuntos de datos \cite{poveda2004}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/04b_bimodal_precipitacion.png}
 	\caption{Precipitación mensual promedio (mm/mes) para Pereira 2016--2025,
-		desagregada por mes y coloreada según la estación bimodal del Eje Cafetero.
-		Barras sólidas: IDEAM. Barras rayadas: NASA POWER.}
+		desagregada por mes y coloreada según la estación bimodal del Eje Cafetero.}
 	\label{fig:bimodal_precipitacion}
 \end{figure}
 
 La Figura~\ref{fig:bimodal_precipitacion} ofrece la representación más directa del
 patrón bimodal al mostrar la precipitación mensual promedio desagregada mes a mes
 y coloreada por estación. El ciclo anual de lluvias en Pereira describe una forma
-característica de doble joroba: el primer pico se alcanza en marzo (200~mm en IDEAM),
-se sostiene en abril y mayo antes de caer hacia el mínimo relativo de julio (160~mm),
-y el segundo pico ocurre en octubre y noviembre, con noviembre siendo el mes más
-lluvioso del año con 320~mm en IDEAM y 200~mm en NASA POWER. Los meses más secos
-son enero y febrero, con menos de 110~mm en ambas fuentes. Resulta notable que Seco~2 (junio--agosto) no sea realmente seco en términos absolutos:
-con valores entre 160 y 180~mm/mes, supera a muchos meses que en otras regiones se
-considerarían lluviosos. Esta característica es propia del clima ecuatorial húmedo,
-donde incluso los períodos de menor precipitación mantienen una pluviosidad
-considerable.
+característica de doble joroba \cite{urrea2019, poveda2005}: el primer pico se alcanza en marzo (200~mm en IDEAM), se sostiene en abril y mayo y cae hacia el mínimo relativo de julio (160~mm); el segundo pico ocurre en octubre y noviembre, con noviembre como el mes más lluvioso del año: 320~mm en IDEAM y 200~mm en NASA POWER. Los meses más secos son enero y febrero, con menos de 110~mm en ambas
+fuentes. La mayor intensidad del segundo período lluvioso respecto al primero está
+asociada a la posición más austral de la ZCIT en su segundo paso anual, que coincide
+con una mayor disponibilidad de humedad amazónica y un reforzamiento de la convección
+en los flancos andinos \cite{hoyos2018, poveda2011}. Resulta notable que Seco~2
+(junio--agosto) no sea realmente seco en términos absolutos: con valores entre 160
+y 180~mm/mes, supera a muchos meses que en otras regiones se considerarían lluviosos.
+Esta característica es propia del clima ecuatorial húmedo, donde incluso los períodos
+de menor precipitación mantienen una pluviosidad considerable \cite{poveda2004}.
 
 La asimetría entre los dos picos lluviosos, con Lluvioso~2 notablemente más intenso
-que Lluvioso~1 en los datos del IDEAM pero no en NASA POWER, nos habla del segundo paso de la ZCIT sobre Colombia, que ocurre
-entre septiembre y noviembre en su recorrido de regreso hacia el ecuador austral,
-coincide con una mayor disponibilidad de energía y humedad: la Amazonía ha acumulado
-calor durante el verano boreal y el Pacífico tropical oriental mantiene temperaturas
-superficiales elevadas, intensificando la convección sobre los flancos andinos. Este
-reforzamiento es un fenómeno de mesoescala estrechamente vinculado a la topografía
-local de los Andes y a la interacción entre sus flancos, que una celda de rejilla de
-0.5°~$\times$~0.625° no tiene resolución suficiente para capturar. NASA POWER promedia
+que Lluvioso~1 en los datos del IDEAM pero no en NASA POWER, se explica por la
+dinámica del segundo paso de la ZCIT sobre Colombia \cite{urrea2019}. Este paso,
+que ocurre entre septiembre y noviembre en su recorrido de regreso hacia el ecuador
+austral, coincide con una mayor disponibilidad de energía y humedad: la Amazonía ha
+acumulado calor durante el verano boreal y el Pacífico tropical oriental mantiene
+temperaturas superficiales elevadas, intensificando la convección sobre los flancos
+andinos \cite{hoyos2018, poveda2011}. Este reforzamiento es un fenómeno de mesoescala
+estrechamente vinculado a la topografía local de los Andes y a la interacción entre
+sus flancos \cite{poveda2004}, que una celda de rejilla de 0.5°~$\times$~0.625° no
+tiene resolución suficiente para capturar. NASA POWER promedia
 condiciones de una región extensa que incluye zonas con comportamiento distinto al
 del valle urbano de Pereira, diluyendo la señal del segundo pico e igualando
 artificialmente la magnitud de ambas temporadas lluviosas.
 
 \subsection{Variabilidad interanual y anomalías}
-
 La Figura~\ref{fig:anomalias_diarias} presenta las anomalías diarias de las tres
 variables respecto a la climatología del mismo día del año, calculada sobre el
 período completo 2016--2025. A escala diaria, el rasgo más inmediato es la diferencia
@@ -378,105 +390,95 @@ de amplitud entre fuentes: IDEAM registra excursiones de temperatura de hasta
 $\pm$6~°C respecto a la climatología, mientras que NASA POWER raramente supera
 $\pm$2~°C. Esta contracción no indica que el reanálisis subestime la variabilidad
 real, sino que promedia espacialmente sobre una celda extensa, diluyendo los eventos
-extremos puntuales que sí capturan las estaciones de superficie. Pese a esa
-diferencia de amplitud, ambas fuentes comparten el signo de la anomalía la mayor
-parte del tiempo, lo que confirma que responden a los mismos forzamientos atmosféricos
-de gran escala.
+extremos puntuales que sí capturan las estaciones de superficie.
+Pese a esa diferencia de amplitud, ambas fuentes comparten el signo de la anomalía
+la mayor parte del tiempo, lo que confirma que responden a los mismos forzamientos
+atmosféricos de gran escala \cite{poveda2011}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/05_anomalias_diarias.png}
 	\caption{Anomalías diarias de temperatura (°C), precipitación (mm/día) y humedad
-		relativa (\%) respecto a la climatología diaria del período 2016--2025. Azul:
-		IDEAM. Rojo: NASA POWER.}
+		relativa (\%) respecto a la climatología diaria del período 2016--2025.}
 	\label{fig:anomalias_diarias}
 \end{figure}
 
 En precipitación, los picos positivos del IDEAM alcanzan más de 100~mm/día sobre
 la climatología, mientras que NASA POWER raramente supera los 50~mm/día en anomalía
-positiva. Los valores negativos son pequeños y simétricos en ambas fuentes, lo que
-es esperado: la precipitación está acotada inferiormente por cero, de modo que las
+positiva.Los valores negativos presentan menor amplitud en ambas fuentes y muestran un comportamiento más similar entre ellas que los positivos: la precipitación está acotada inferiormente por cero, de modo que las
 anomalías negativas no pueden ser tan grandes como las positivas. El rasgo más
 notable de toda la figura corresponde a la humedad relativa del IDEAM durante
 2019--2020: una secuencia de anomalías negativas sostenidas que llegan a $-$30~\%,
 sin parangón en ningún otro período de la serie y completamente ausente en NASA
-POWER. Este episodio, que se extiende de manera casi ininterrumpida durante
-aproximadamente un año, apunta a un déficit hídrico local de origen sinóptico que
-el reanálisis, al promediar condiciones regionales, no es capaz de reproducir.
+POWER \cite{ideam2019nino}. Este episodio, que se extiende de manera casi
+ininterrumpida durante aproximadamente un año, apunta a un déficit hídrico local
+de origen sinóptico que el reanálisis, al promediar condiciones regionales, no es
+capaz de reproducir \cite{hoyos2018}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/06_anomalias_mensuales.png}
 	\caption{Anomalías mensuales de temperatura (°C), precipitación (mm/mes) y
-		humedad relativa (\%) respecto a la climatología mensual del período 2016--2025.
-		Azul: IDEAM. Rojo: NASA POWER.}
+		humedad relativa (\%) respecto a la climatología mensual del período 2016--2025.}
 	\label{fig:anomalias_mensuales}
 \end{figure}
-
 La agregación mensual de la Figura~\ref{fig:anomalias_mensuales} permite leer con
 mayor claridad la estructura interanual. En temperatura, la señal más robusta es la
 de 2024, que se perfila como el año más cálido del período con anomalías que alcanzan
 $+$2.1~°C en IDEAM y $+$1.5~°C en NASA POWER durante sus meses más cálidos, en
 coincidencia con el episodio de El Niño 2023--2024 y el calentamiento global de
-fondo. En el extremo opuesto, 2021 y 2022 presentan anomalías negativas consistentes
-en temperatura en ambas fuentes, coherentes con el enfriamiento asociado a La Niña
-que dominó el Pacífico tropical durante ese bienio.
+fondo \cite{raghuraman2024}. En el extremo opuesto, 2021 y 2022 presentan anomalías
+negativas consistentes en temperatura en ambas fuentes, coherentes con el enfriamiento
+asociado a La Niña que dominó el Pacífico tropical durante ese bienio \cite{poveda2011}.
 
 La precipitación mensual exhibe la mayor divergencia entre fuentes en todo el
 análisis. El año 2022 es el caso más llamativo: NASA POWER registra una anomalía
 positiva que supera los $+$600~mm/año, mientras que IDEAM apenas alcanza
 $+$100~mm/año en el mismo período. Esta discrepancia no es atribuible a errores
 de una sola fuente sino a la diferente escala espacial que cada una representa:
-La Niña de 2021--2022 intensificó la precipitación sobre amplias regiones del
+la Niña de 2021--2022 intensificó la precipitación sobre amplias regiones del
 Pacífico tropical oriental y los Andes colombianos, señal que NASA POWER captura
-a escala regional, mientras que las estaciones de superficie del IDEAM reflejan
-condiciones más locales que pueden diferir del promedio regional. El déficit de
-humedad de 2019--2020 también es perfectamente legible a escala mensual en IDEAM,
-con anomalías que en los meses centrales del episodio superan los $-$14~\%, y
-ausente en NASA POWER, reforzando la interpretación de un fenómeno de escala
-local.
+a escala regional \cite{gelaro2017}, mientras que las estaciones de superficie del
+IDEAM reflejan condiciones más locales que pueden diferir del promedio regional
+\cite{urrea2019}. El déficit de humedad de 2019--2020 también es perfectamente
+legible a escala mensual en IDEAM, con anomalías que en los meses centrales del
+episodio superan los $-$14~\%, y ausente en NASA POWER \cite{ideam2019nino},
+reforzando la interpretación de un fenómeno de escala local \cite{hoyos2018}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/07_anomalias_anuales.png}
 	\caption{Anomalías anuales de temperatura (°C), precipitación (mm/año) y
 		humedad relativa (\%) respecto a la media del período 2016--2025. Barras sólidas:
-		años con anomalía positiva. Barras claras: años con anomalía negativa. Azul:
-		IDEAM. Rojo: NASA POWER.}
+		años con anomalía positiva. Barras claras: años con anomalía negativa.}
 	\label{fig:anomalias_anuales}
 \end{figure}
-
-La Figura~\ref{fig:anomalias_anuales} consolida la visión interanual al integrar
-las anomalías por año completo. El panel de temperatura ofrece la lectura más limpia:
+La Figura~\ref{fig:anomalias_anuales} ofrece la lectura interanual más clara del período al integrar las anomalías por año completo. El panel de temperatura ofrece la lectura más limpia:
 2019 y 2024 son los años más cálidos del período en ambas fuentes, con anomalías
 positivas que alcanzan $+$0.5~°C y $+$0.6~°C respectivamente en IDEAM; 2021 y 2025
 son los más fríos, con anomalías negativas de hasta $-$0.7~°C. Este patrón alterno
 de años cálidos y fríos es coherente con la modulación del ciclo ENSO sobre el
-clima del Eje Cafetero: los años de El Niño tienden a ser más cálidos y secos,
-mientras que los de La Niña son más frescos y húmedos. La concordancia entre IDEAM
-y NASA POWER en el signo y la secuencia de las anomalías térmicas anuales es el
-resultado de mayor consistencia entre fuentes en todo el análisis, lo que valida
-que ambas capturan correctamente la variabilidad interanual de gran escala aun
-cuando difieren en amplitud y en la resolución de fenómenos locales.
+clima del Eje Cafetero: los años de El Niño tienden a ser más cálidos y secos \cite{ideam2019nino, raghuraman2024}, mientras que los de La Niña son más frescos y húmedos \cite{poveda2011}. La concordancia entre IDEAM y NASA
+POWER en el signo y la secuencia de las anomalías térmicas anuales es el resultado
+de mayor consistencia entre fuentes en todo el análisis, lo que valida que ambas
+capturan correctamente la variabilidad interanual de gran escala
+aun cuando difieren en amplitud y en la resolución de fenómenos locales.
 
 \subsection{Distribuciones de frecuencia}
-
 La Figura~\ref{fig:histogramas} presenta las distribuciones de frecuencia de los
 valores diarios de las tres variables para ambas fuentes, construidas sobre los
 3\,653 registros del período 2016--2025. La comparación simultánea de ambas
 columnas permite leer no solo las diferencias en nivel medio (ya documentadas en
 la sección anterior) sino las diferencias en forma distribucional, que revelan
 aspectos del comportamiento climático que las series temporales no hacen evidentes.
-
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/08_histogramas.png}
 	\caption{Distribución de frecuencia de valores diarios de temperatura (°C),
 		precipitación (mm/día, solo días con lluvia) y humedad relativa (\%) para
-		Pereira 2016--2025. Izquierda: IDEAM. Derecha: NASA POWER.}
+		Pereira 2016--2025.}
 	\label{fig:histogramas}
 \end{figure}
-
 La distribución de temperatura del IDEAM presenta una forma aproximadamente
 unimodal centrada en 22.3~°C, con media y mediana prácticamente coincidentes
 (22.3 y 22.2~°C respectivamente), lo que indica una distribución cercana a la
@@ -484,24 +486,26 @@ simetría. Sin embargo, la cola izquierda es notablemente más larga que la dere
 hay días que alcanzan los 17~°C pero el extremo cálido raramente supera los 28~°C,
 lo que refleja que los eventos de enfriamiento (asociados a advección de masas de
 aire frío andino o a episodios de mayor nubosidad) producen excursiones más amplias
-hacia el frío que hacia el calor. NASA POWER muestra una distribución más estrecha
-y con menor asimetría, centrada en 16.4~°C, confirmando el desplazamiento altitudinal
-ya discutido. La menor dispersión del reanálisis respecto a las observaciones de
-superficie es coherente con su naturaleza de promedio espacial sobre una celda extensa.
+hacia el frío que hacia el calor \cite{poveda2004}. NASA POWER muestra una
+distribución más estrecha y con menor asimetría, centrada en 16.4~°C, confirmando
+el desplazamiento altitudinal ya discutido \cite{gelaro2017}. La menor dispersión
+del reanálisis respecto a las observaciones de superficie es coherente con su
+naturaleza de promedio espacial sobre una celda extensa.
 
 La precipitación es la variable con mayor contraste entre fuentes. El IDEAM registra
 un 29.7\% de días completamente secos, mientras que NASA POWER apenas alcanza un
-1.4\%. Esta diferencia de casi treinta puntos porcentuales no es un error sino una
-consecuencia directa de la escala espacial: una estación puntual puede registrar
-cero milímetros en un día en que llueve a pocos kilómetros de distancia, mientras
-que la celda de reanálisis, al promediar sobre cientos de kilómetros cuadrados,
-casi siempre acumula alguna precipitación en algún punto de su área. En los días
-con lluvia, ambas distribuciones presentan la forma exponencial decreciente
-característica de la precipitación convectiva tropical: eventos frecuentes de baja
-intensidad y eventos raros de alta intensidad. La diferencia fundamental está en
-los extremos: el IDEAM registra eventos diarios que superan los 100~mm, mientras
-que el máximo de NASA POWER en días lluviosos no alcanza los 70~mm, reflejo nuevamente
-del suavizado espacial del reanálisis.
+1.4\%. Esta diferencia de 28 puntos porcentuales no es un error sino una
+consecuencia directa de la escala espacial \cite{urrea2019}: una estación puntual
+puede registrar cero milímetros en un día en que llueve a pocos kilómetros de
+distancia, mientras que la celda de reanálisis, al promediar sobre cientos de
+kilómetros cuadrados, casi siempre acumula alguna precipitación en algún punto de
+su área. En los días con lluvia, ambas distribuciones presentan
+la forma exponencial decreciente característica de la precipitación convectiva
+tropical \cite{poveda2005}: eventos frecuentes de baja intensidad y eventos raros
+de alta intensidad. La diferencia fundamental está en los extremos: el IDEAM registra
+eventos diarios que superan los 100~mm, mientras que el máximo de NASA POWER en días
+lluviosos no alcanza los 70~mm, reflejo nuevamente del suavizado espacial del
+reanálisis.
 
 La humedad relativa ofrece quizás la comparación distribucional más instructiva.
 IDEAM presenta una distribución ancha que se extiende desde aproximadamente 40\%
@@ -510,9 +514,9 @@ del pico principal en torno a 78--80\%. NASA POWER, en cambio, muestra una
 distribución desplazada hacia la derecha (media 86.8\%), más estrecha y con una
 cola hacia valores altos que se extiende hasta cerca del 97\%. La separación de
 9.3 puntos porcentuales en la media entre fuentes no tiene una explicación
-altitudinal directa como en temperatura, la humedad relativa no sigue un
-gradiente altitudinal simple,  sino que refleja que el reanálisis representa
-condiciones medias regionales donde la humedad permanece consistentemente elevada,
+altitudinal directa como en temperatura; la humedad relativa no sigue un gradiente
+altitudinal simple, sino que refleja que el reanálisis representa condiciones medias
+regionales donde la humedad permanece consistentemente elevada \cite{hoyos2018},
 mientras que las estaciones de superficie capturan la variabilidad local completa,
 incluyendo los episodios de aire seco que el promedio regional nunca registra.
 
@@ -534,8 +538,7 @@ la banda subanual de 1 a 400 días.
 		de temperatura, precipitación y humedad relativa para Pereira 2016--2025.
 		Eje horizontal: período en días (escala lineal). Eje vertical: potencia
 		espectral en escala logarítmica. Líneas verticales punteadas: períodos de
-		referencia anual (365d), semianual (182d) y trimestral (91d).
-		Azul: IDEAM. Rojo: NASA POWER.}
+		referencia anual (365d), semianual (182d) y trimestral (91d).}
 	\label{fig:fourier}
 \end{figure}
 
@@ -545,56 +548,56 @@ presenta su máximo espectral en 365 días, reflejo de la estacionalidad térmic
 asociada al ciclo solar. En Pereira, ese pico es débil o inexistente en las
 observaciones de superficie: la temperatura no tiene una estación cálida y una
 fría claramente separadas, como ya mostraron las series temporales y los promedios
-estacionales. NASA POWER sí presenta un pico más definido en torno al período anual,
-lo que sugiere que el reanálisis introduce cierta estacionalidad térmica regional
-que las estaciones locales no registran con la misma intensidad. A períodos más
-largos que el anual, la potencia espectral crece monótonamente en ambas fuentes,
-reflejo de la variabilidad interanual de baja frecuencia asociada al ciclo ENSO.
+estacionales \cite{poveda2004}. NASA POWER sí presenta un pico más definido en
+torno al período anual, lo que sugiere que el reanálisis introduce cierta
+estacionalidad térmica regional que las estaciones locales no registran con la
+misma intensidad \cite{gelaro2017}. A períodos más largos que el anual, la potencia
+espectral crece monótonamente en ambas fuentes, reflejo de la variabilidad interanual
+de baja frecuencia asociada al ciclo ENSO \cite{poveda2011}.
 
 La precipitación exhibe un comportamiento espectral cualitativamente distinto. Ambas
 fuentes muestran un pico en torno a los 182 días, el período semianual, que
 corresponde precisamente a la separación entre los dos máximos del ciclo bimodal
-del Eje Cafetero. Este es el resultado espectral central del análisis: la
-organización climática de Pereira en materia de lluvias no responde a un ciclo
-anual sino a uno semianual, impuesto por el doble paso de la ZCIT. La potencia
-de IDEAM supera a la de NASA POWER en el rango de períodos superiores a 1\,000
-días, señal de que las observaciones de superficie capturan con mayor fidelidad
-la variabilidad interanual de la precipitación, incluyendo los años extremos
-identificados en la sección anterior.
+del Eje Cafetero \cite{urrea2019}. Este es el resultado espectral central del
+análisis: la organización climática de Pereira en materia de lluvias no responde
+a un ciclo anual sino a uno semianual, impuesto por el doble paso de la ZCIT
+\cite{poveda2005, hoyos2018}. La potencia de IDEAM supera a la de NASA POWER en
+el rango de períodos superiores a 1\,000 días, señal de que las observaciones de
+superficie capturan con mayor fidelidad la variabilidad interanual de la
+precipitación, incluyendo los años extremos identificados en la sección anterior.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../../results/plots/10_fourier_zoom.png}
 	\caption{Espectro de potencia con zoom sobre períodos de 1 a 400 días.
 		Las líneas verticales punteadas marcan los períodos semanal (7d), mensual
-		(30d), trimestral (91d), semianual (182d) y anual (365d).
-		Azul: IDEAM. Rojo: NASA POWER.}
+		(30d), trimestral (91d), semianual (182d) y anual (365d).}
 	\label{fig:fourier_zoom}
 \end{figure}
 
-El zoom sobre la banda 1--400 días de la Figura~\ref{fig:fourier_zoom} confirma
-y precisa estas lecturas. En temperatura, IDEAM presenta un pico pronunciado en
-el período semianual (~182d) que NASA POWER no reproduce con la misma intensidad,
+El zoom sobre la banda 1–400 días de la Figura~\ref{fig:fourier_zoom} revela un detalle que el espectro completo no hacía visible: en temperatura, IDEAM presenta un pico pronunciado en
+el período semianual (182d) que NASA POWER no reproduce con la misma intensidad,
 lo que es coherente con la estructura bimodal del clima local: incluso la
 temperatura, aunque con variaciones pequeñas, responde levemente al ciclo de
-lluvias a través de la nubosidad y la evapotranspiración. En precipitación, el
-pico semianual es el más claro del espectro en IDEAM, confirmando que el bimodal
-es la frecuencia dominante de organización pluviométrica. En períodos cortos,
-por debajo de los 30 días, ambas fuentes presentan un espectro de tipo ruido
-rojo sin picos discretos identificables: no existe ningún ciclo semanal, decenal
-ni mensual que organice la precipitación local, lo que es característico de los
-climas convectivos tropicales donde la lluvia es fundamentalmente estocástica a
-escala de días.
+lluvias a través de la nubosidad y la evapotranspiración \cite{poveda2004}. En
+precipitación, el pico semianual es el más claro del espectro en IDEAM, confirmando
+que el bimodal es la frecuencia dominante de organización pluviométrica \cite{urrea2019}.
+En períodos cortos, por debajo de los 30 días, ambas fuentes presentan un espectro
+de tipo ruido rojo sin picos discretos identificables: no existe ningún ciclo
+semanal, decenal ni mensual que organice la precipitación local, lo que es
+característico de los climas convectivos tropicales donde la lluvia es
+fundamentalmente estocástica a escala de días \cite{poveda2005}.
 
 La humedad relativa del IDEAM concentra su mayor potencia espectral en el período
 semianual y en períodos superiores al anual, dominados por el episodio de déficit
-hídrico sostenido de 2019--2020 que ya fue documentado en la sección de anomalías.
-NASA POWER presenta un espectro de humedad más plano y con menor potencia en todas
-las frecuencias, coherente con su menor sensibilidad a los extremos locales. La
-coincidencia entre ambas fuentes en la ubicación del pico semianual, presente en
-las tres variables, constituye la validación espectral del patrón bimodal y
-confirma que este ciclo es una característica robusta del clima de Pereira,
-reproducible independientemente de la fuente de datos utilizada.
+hídrico sostenido de 2019--2020 que ya fue documentado en la sección de anomalías
+\cite{ideam2019nino}. NASA POWER presenta un espectro de humedad más plano y con
+menor potencia en todas las frecuencias, coherente con su menor sensibilidad a los
+extremos locales \cite{gelaro2017}. La coincidencia entre ambas fuentes en la
+ubicación del pico semianual, presente en las tres variables, constituye la
+validación espectral del patrón bimodal y confirma que este ciclo es una
+característica robusta del clima de Pereira, reproducible independientemente de
+la fuente de datos utilizada \cite{urrea2019, poveda2005}.
 
 \section{Conclusiones}
 
@@ -619,7 +622,7 @@ Intertropical sobre Colombia. Este patrón bimodal define dos temporadas lluvios
 precipitación, aunque incluso estos períodos secos mantienen valores entre 160 y
 180~mm/mes, considerables en cualquier contexto climático global. El segundo período
 lluvioso es notablemente más intenso que el primero, con noviembre como el mes más
-lluvioso del año (~320~mm), fenómeno atribuible a la mayor disponibilidad de energía
+lluvioso del año (320~mm), fenómeno atribuible a la mayor disponibilidad de energía
 y humedad amazónica durante el segundo paso de la ZCIT y al reforzamiento convectivo
 sobre los flancos andinos. La humedad relativa sigue fielmente este ciclo, con
 valores medios en torno al 77\% y episodios de déficit que pueden extenderse durante
@@ -653,5 +656,97 @@ con fidelidad pero con cobertura espacial limitada y datos faltantes; NASA POWER
 ofrece una serie completa y sin interrupciones que representa correctamente las
 condiciones regionales de gran escala pero pierde los extremos y los fenómenos
 de mesoescala que definen la experiencia climática cotidiana de Pereira.
+	\newpage
+	
+\begin{thebibliography}{9}
+	
+	\bibitem{poveda2004}
+	Poveda, G.
+	La hidroclimatología de Colombia: una síntesis desde la escala inter-decadal
+	hasta la escala diurna.
+	\textit{Revista de la Academia Colombiana de Ciencias Exactas, Físicas y
+		Naturales}, 28(107), 201--222, 2004.
+	
+	\bibitem{urrea2019}
+	Urrea, V., Ochoa, A., y Mesa, O.
+	Seasonality of Rainfall in Colombia.
+	\textit{Water Resources Research}, 55(5), 4149--4162, 2019.
+	\url{https://doi.org/10.1029/2018WR023316}
+	
+	\bibitem{ideam_temperatura}
+	Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM).
+	Temperatura Ambiente del Aire.
+	Datos Abiertos Colombia, 2025.
+	\url{https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Temperatura-Ambiente-del-Aire/sbwg-7ju4/about_data}
+	
+	\bibitem{ideam_humedad}
+	Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM).
+	Humedad del Aire.
+	Datos Abiertos Colombia, 2025.
+	\url{https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Humedad-del-Aire/uext-mhny/about_data}
+	
+	\bibitem{ideam_precipitacion}
+	Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM).
+	Precipitación.
+	Datos Abiertos Colombia, 2025.
+	\url{https://www.datos.gov.co/Ambiente-y-Desarrollo-Sostenible/Precipitaci-n/s54a-sgyg/about_data}
+	
+	\bibitem{nasa_power}
+	National Aeronautics and Space Administration (NASA).
+	POWER Data Access Viewer.
+	NASA Langley Research Center, 2025.
+	\url{https://power.larc.nasa.gov/data-access-viewer/}
+	
+	\bibitem{gelaro2017}
+	Gelaro, R., et al.
+	The Modern-Era Retrospective Analysis for Research and Applications,
+	Version 2 (MERRA-2).
+	\textit{Journal of Climate}, 30(14), 5419--5454, 2017.
+	\url{https://doi.org/10.1175/JCLI-D-16-0758.1}
+	
+	\bibitem{stackhouse2018}
+	Stackhouse, P. W., Zhang, T., Westberg, D., Barnett, A. J., Bristow, T.,
+	Macpherson, B., y Hoell, J. M.
+	\textit{POWER Release 8 (with GIS Applications) Methodology (Data Parameters,
+		Sources, \& Validation)}, versión de datos 8.0.1.
+	NASA Technical Report, 2018.
+	\url{https://power.larc.nasa.gov/}
+	
+	\bibitem{poveda2011}
+	Poveda, G., Álvarez, D. M., y Rueda, O. A.
+	Hydro-climatic variability over the Andes of Colombia associated with ENSO:
+	a review of climatic processes and their impact on one of the Earth's most
+	important biodiversity hotspots.
+	\textit{Climate Dynamics}, 36(11--12), 2233--2249, 2011.
+	\url{https://doi.org/10.1007/s00382-010-0931-y}
+	
+	\bibitem{poveda2005}
+	Poveda, G., Jaramillo, A., Gil, M. M., Quiceno, N., y Mantilla, R. I.
+	The Diurnal Cycle of Precipitation in the Tropical Andes of Colombia.
+	\textit{Monthly Weather Review}, 133(1), 228--240, 2005.
+	\url{https://doi.org/10.1175/MWR-2853.1}
+	
+	\bibitem{hoyos2018}
+	Hoyos, I., Dominguez, F., Cañón-Barriga, J., Martínez, J. A., Nieto, R.,
+	Gimeno, L., y Dirmeyer, P. A.
+	Moisture origin and transport processes in Colombia, northern South America.
+	\textit{Climate Dynamics}, 50(3--4), 971--990, 2018.
+	\url{https://doi.org/10.1007/s00382-017-3653-6}
+	
+	\bibitem{ideam2019nino}
+	Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM).
+	\textit{Boletín informativo sobre el monitoreo del fenómeno El Niño},
+	No. 24.
+	Ministerio de Ambiente y Desarrollo Sostenible, Bogotá, Colombia, 2019.
+	\url{https://www.ideam.gov.co/web/tiempo-y-clima/vigilancia-enso}
+	
+	\bibitem{raghuraman2024}
+	Raghuraman, S. P., Soden, B., Clement, A., Vecchi, G., Menemenlis, S.,
+	y Yang, W.
+	The 2023 global warming spike was driven by the El Niño--Southern Oscillation.
+	\textit{Atmospheric Chemistry and Physics}, 24, 11275--11283, 2024.
+	\url{https://doi.org/10.5194/acp-24-11275-2024}
+	
+\end{thebibliography}
 
 \end{document}
