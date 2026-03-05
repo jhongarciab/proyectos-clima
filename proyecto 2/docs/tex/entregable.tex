@@ -1,0 +1,188 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{cite}
+% --- Codificación y lenguaje ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+
+% --- Márgenes ---
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+
+% --- Tipografía ---
+\usepackage{lmodern}
+
+% --- Matemáticas ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% --- Figuras y tablas ---
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% --- Colores ---
+\usepackage{xcolor}
+
+% --- Hipervínculos ---
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+% --- Interlineado ---
+\usepackage{setspace}
+\onehalfspacing
+
+% --- Encabezados y pies de página ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Región Andina occidental (2015--2024)}
+\rhead{\small Mini Proyecto 2}
+\rfoot{\thepage}
+
+% --- Bibliografía ---
+\usepackage[numbers, sort&compress]{natbib}
+
+% =============================================================
+\begin{document}
+	
+	\begin{titlepage}
+		\centering
+		\vspace*{2cm}
+		{\LARGE \textbf{Mini Proyecto 2: Dinámica y termodinámica atmosférica regional}\\[0.5em]
+			\large Atmósfera estándar, climatologías de reanálisis\\
+			y aproximación geostrófica (2015--2024)}\\[2cm]
+		{\large Jhon García Barrera}\\[0.5em]
+		{\normalsize Física del Clima y Cambio Climático}\\[0.5em]
+		{\normalsize \today}\\[3cm]
+		\vfill
+		{\small Código y datos disponibles en:\\
+			\url{https://github.com/jhongarciab/proyectos-clima/tree/main/proyecto%202}}
+	\end{titlepage}
+	
+	\tableofcontents
+	\newpage
+
+\section{Introducción}
+
+En este trabajo se evalúan aproximaciones de dinámica y termodinámica atmosférica en un contexto regional,
+articulando una comparación entre el modelo idealizado de atmósfera estándar y campos climatológicos de reanálisis.
+El análisis se organiza en cinco partes: (i) perfiles verticales de atmósfera estándar, (ii) selección de región y
+adquisición de datos de reanálisis, (iii) despliegue cartográfico de climatologías de superficie, (iv) cálculo y
+validación de la aproximación geostrófica, y (v) comparación del perfil vertical regional con la atmósfera estándar.
+
+\section{Datos y metodología}
+
+\subsection{Alcance del estudio (Fase A)}
+
+\textbf{Región definida (caja rectangular):}
+\begin{itemize}
+    \item Latitud: 4.0\,$^{\circ}$N a 5.5\,$^{\circ}$N
+    \item Longitud: -76.5\,$^{\circ}$ a -75.0\,$^{\circ}$
+\end{itemize}
+
+\textbf{Fuente de datos seleccionada:} ERA5 (ECMWF/Copernicus).
+
+\textbf{Período climatológico:} 2015--2024 (10 años).
+
+\textbf{Variables de superficie objetivo:}
+\begin{itemize}
+    \item Temperatura del aire a 2 m ($T_{2m}$)
+    \item Presión en superficie ($p_s$)
+    \item Componentes zonal y meridional del viento a 10 m ($u_{10}, v_{10}$)
+\end{itemize}
+
+\textbf{Variables para perfil vertical:}
+\begin{itemize}
+    \item Temperatura en niveles de presión
+    \item Geopotencial/altura geopotencial en niveles de presión
+\end{itemize}
+
+\subsection{Atmósfera estándar (Ítem 1)}
+
+Para el primer ítem se implementó la aproximación de Atmósfera Estándar Internacional (ISA) en una columna vertical de 0 a 20\,km, con resolución de 100\,m. Se usaron las constantes $g_0=9.80665\,\mathrm{m\,s^{-2}}$, $R_d=287.05\,\mathrm{J\,kg^{-1}\,K^{-1}}$, $T_0=288.15\,\mathrm{K}$ y $p_0=101325\,\mathrm{Pa}$.
+
+En la troposfera ($0\le z\le 11\,\mathrm{km}$) se asumió gradiente térmico constante $L=-6.5\,\mathrm{K\,km^{-1}}$:
+\begin{equation}
+T(z)=T_0+Lz,
+\end{equation}
+y la presión se obtuvo de la forma politrópica de equilibrio hidrostático:
+\begin{equation}
+p(z)=p_0\left(\frac{T(z)}{T_0}\right)^{-\frac{g_0}{R_dL}}.
+\end{equation}
+
+En la capa isotérmica baja de estratósfera ($11<z\le 20\,\mathrm{km}$), con $T(z)=T_{11}=216.65\,\mathrm{K}$, se usó:
+\begin{equation}
+p(z)=p_{11}\exp\left[-\frac{g_0(z-11\,000)}{R_dT_{11}}\right].
+\end{equation}
+
+Finalmente, la densidad se calculó mediante la ley de gases ideales:
+\begin{equation}
+\rho(z)=\frac{p(z)}{R_dT(z)}.
+\end{equation}
+
+El cálculo fue implementado en el script
+\texttt{scripts/python/01\_atmosfera\_estandar.py}, que además exporta una tabla numérica y métricas de validación de consistencia física.
+
+\subsection{Climatologías y análisis geostrófico (Ítems 2--4)}
+
+\textit{[Se completará con metodología de descarga, procesamiento climatológico, cálculo geostrófico y métricas de comparación.]}
+
+\subsection{Perfil vertical regional (Ítem 5)}
+
+\textit{[Se completará con método de extracción del perfil vertical y comparación contra atmósfera estándar.]}
+
+\section{Resultados}
+
+\subsection{Campos verticales de atmósfera estándar}
+
+La Figura~\ref{fig:isa_perfiles} muestra los perfiles verticales de temperatura, presión y densidad entre 0 y 20\,km. La temperatura desciende linealmente desde 288.15\,K en superficie hasta 216.65\,K a 11\,km, y permanece constante hasta 20\,km por construcción del modelo ISA en este rango. La presión y la densidad decrecen monótonamente con la altura, con comportamiento aproximadamente exponencial en escala lineal de altura.
+
+Numéricamente, los valores obtenidos en puntos de control fueron:
+$T(0)=288.15\,\mathrm{K}$, $p(0)=101325\,\mathrm{Pa}$, $\rho(0)=1.2250\,\mathrm{kg\,m^{-3}}$;
+$T(11\,\mathrm{km})=216.65\,\mathrm{K}$, $p(11\,\mathrm{km})=22631.7\,\mathrm{Pa}$;
+$T(20\,\mathrm{km})=216.65\,\mathrm{K}$, $p(20\,\mathrm{km})=5474.7\,\mathrm{Pa}$.
+
+Como control de calidad, se verificó: (i) monotonicidad estricta de $p(z)$ y $\rho(z)$, (ii) cierre de la ecuación de estado con error relativo máximo de $2.62\times10^{-16}$, y (iii) residuo hidrostático relativo medio de $9.37\times10^{-5}$ (máximo $7.93\times10^{-3}$), consistente con el error de discretización por diferencias finitas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../../results/plots/01_atmosfera_estandar.png}
+    \caption{Perfiles verticales de temperatura, presión y densidad para la atmósfera estándar (ISA), calculados entre 0 y 20\,km.}
+    \label{fig:isa_perfiles}
+\end{figure}
+
+\subsection{Mapas climatológicos de presión, temperatura y viento}
+\textit{[Pendiente.]}
+
+\subsection{Comparación geostrófica vs reanálisis}
+\textit{[Pendiente.]}
+
+\subsection{Perfil vertical regional vs atmósfera estándar}
+\textit{[Pendiente.]}
+
+\section{Conclusiones}
+\textit{[Pendiente.]}
+
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{era5}
+Hersbach, H., et al.
+The ERA5 global reanalysis.
+\textit{Quarterly Journal of the Royal Meteorological Society}, 146(730), 1999--2049, 2020.
+\url{https://doi.org/10.1002/qj.3803}
+
+\bibitem{holton}
+Holton, J. R., y Hakim, G. J.
+\textit{An Introduction to Dynamic Meteorology} (5th ed.).
+Academic Press, 2013.
+
+\bibitem{wallace}
+Wallace, J. M., y Hobbs, P. V.
+\textit{Atmospheric Science: An Introductory Survey} (2nd ed.).
+Elsevier, 2006.
+
+\end{thebibliography}
+
+\end{document}

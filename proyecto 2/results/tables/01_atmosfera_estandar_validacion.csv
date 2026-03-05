@@ -1,0 +1,14 @@
+metric,value
+p_monotonic_decreasing,1.0
+rho_monotonic_decreasing,1.0
+max_rel_error_ideal_gas,2.620856156854462e-16
+mean_rel_error_ideal_gas,6.638672398204386e-17
+max_rel_error_hydrostatic,0.007926112554934063
+mean_rel_error_hydrostatic,9.365763039610186e-05
+T_surface_K,288.15
+p_surface_Pa,101325.0
+rho_surface_kg_m3,1.2250122659906946
+T_11km_K,216.64999999999998
+p_11km_Pa,22631.70090992698
+T_20km_K,216.64999999999998
+p_20km_Pa,5474.717688577339
