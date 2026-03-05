@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
 Ítem 3 — Mini Proyecto 2
-Climatologías regionales mensuales (1996–2025) para variables de superficie ERA5:
-- t2m, sp, u10, v10, ws10 (derivada) 
+Climatologías regionales de superficie ERA5 (1996–2025).
 
 Salidas:
 - results/tables/03_climatologia_mensual.csv
 - results/plots/03_climatologia_mensual_superficie.png
+- results/plots/03_mapa_presion_isobaras_viento.png
+- results/plots/03_mapa_temperatura.png
 - docs/report/03_item3_climatologias.md
 """
 
@@ -31,37 +32,30 @@ VAR_META = {
 
 
 def _open_dataset(nc_path: Path) -> xr.Dataset:
-    # engine automático (xarray decide backend disponible)
     return xr.open_dataset(nc_path)
 
 
-def compute_climatology(ds: xr.Dataset) -> pd.DataFrame:
+def _time_dim(ds: xr.Dataset) -> str:
+    return "time" if "time" in ds.dims else "valid_time"
+
+
+def compute_climatology_monthly_regional(ds: xr.Dataset) -> pd.DataFrame:
     rows = []
+    tdim = _time_dim(ds)
 
-    time_dim = "time" if "time" in ds.dims else "valid_time"
-
-    # Ponderación areal simple por cos(lat) para media regional
     lat_weights = np.cos(np.deg2rad(ds["latitude"]))
     lat_weights = lat_weights / lat_weights.mean()
 
-    # Derivada útil: rapidez del viento a 10 m
     ws10 = np.sqrt(ds["u10"] ** 2 + ds["v10"] ** 2)
 
     for var, meta in VAR_META.items():
-        if var == "ws10":
-            da = ws10
-        else:
-            if var not in ds:
-                raise KeyError(f"Variable requerida no encontrada en NetCDF: {var}")
-            da = ds[var]
+        da = ws10 if var == "ws10" else ds[var]
 
-        # Serie regional mensual: media espacial ponderada (lat-lon) para cada mes del periodo completo
         ts_region = da.weighted(lat_weights).mean(dim=("latitude", "longitude"), skipna=True)
         ts_region = meta["convert"](ts_region)
 
-        # Climatología mensual + variabilidad interanual (sobre 30 eneros, 30 febreros, etc.)
-        clim_mean = ts_region.groupby(f"{time_dim}.month").mean(time_dim, skipna=True)
-        clim_std = ts_region.groupby(f"{time_dim}.month").std(time_dim, skipna=True)
+        clim_mean = ts_region.groupby(f"{tdim}.month").mean(tdim, skipna=True)
+        clim_std = ts_region.groupby(f"{tdim}.month").std(tdim, skipna=True)
 
         for m in MONTHS:
             rows.append(
@@ -79,7 +73,24 @@ def compute_climatology(ds: xr.Dataset) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def plot_climatology(df: pd.DataFrame, out_png: Path) -> None:
+def compute_annual_mean_fields(ds: xr.Dataset) -> dict[str, xr.DataArray]:
+    """Campo climatológico medio multianual (promedio de todos los meses 1996–2025)."""
+    tdim = _time_dim(ds)
+
+    t2m_c = VAR_META["t2m"]["convert"](ds["t2m"])
+    sp_hpa = VAR_META["sp"]["convert"](ds["sp"])
+    u10 = ds["u10"]
+    v10 = ds["v10"]
+
+    return {
+        "t2m": t2m_c.mean(tdim, skipna=True),
+        "sp": sp_hpa.mean(tdim, skipna=True),
+        "u10": u10.mean(tdim, skipna=True),
+        "v10": v10.mean(tdim, skipna=True),
+    }
+
+
+def plot_climatology_monthly(df: pd.DataFrame, out_png: Path) -> None:
     vars_to_plot = list(VAR_META.keys())
     n = len(vars_to_plot)
     ncols = 2
@@ -98,10 +109,9 @@ def plot_climatology(df: pd.DataFrame, out_png: Path) -> None:
         ax.fill_between(x, y - s, y + s, alpha=0.2)
         ax.set_title(f"{VAR_META[var]['label']} [{VAR_META[var]['unit_out']}]")
         ax.set_xticks(MONTHS)
-        ax.set_xticklabels(MONTH_LABELS, rotation=0)
+        ax.set_xticklabels(MONTH_LABELS)
         ax.grid(alpha=0.3)
 
-    # Ocultar ejes sobrantes
     for ax in axes[n:]:
         ax.axis("off")
 
@@ -111,29 +121,98 @@ def plot_climatology(df: pd.DataFrame, out_png: Path) -> None:
     plt.close(fig)
 
 
+def plot_map_pressure_wind(fields: dict[str, xr.DataArray], out_png: Path) -> None:
+    lon = fields["sp"]["longitude"].values
+    lat = fields["sp"]["latitude"].values
+    sp = fields["sp"].values
+    u = fields["u10"].values
+    v = fields["v10"].values
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    cf = ax.contourf(lon, lat, sp, levels=12, cmap="viridis")
+    cbar = fig.colorbar(cf, ax=ax, shrink=0.95)
+    cbar.set_label("Presión superficial climatológica [hPa]")
+
+    # Isobaras
+    cs = ax.contour(lon, lat, sp, levels=8, colors="white", linewidths=1.0)
+    ax.clabel(cs, inline=True, fontsize=8, fmt="%.1f")
+
+    # Viento (submuestreo para legibilidad)
+    step = 1 if len(lat) <= 10 else 2
+    q = ax.quiver(
+        lon[::step],
+        lat[::step],
+        u[::step, ::step],
+        v[::step, ::step],
+        color="black",
+        scale=8,
+        width=0.003,
+    )
+    ax.quiverkey(q, 0.90, -0.08, 1.0, "1 m s$^{-1}$", labelpos="E")
+
+    ax.set_title("MP2 Ítem 3 — Mapa climatológico: presión + isobaras + viento 10 m")
+    ax.set_xlabel("Longitud [°]")
+    ax.set_ylabel("Latitud [°]")
+    ax.grid(alpha=0.25)
+
+    fig.tight_layout()
+    fig.savefig(out_png, dpi=220, bbox_inches="tight")
+    plt.close(fig)
+
+
+def plot_map_temperature(fields: dict[str, xr.DataArray], out_png: Path) -> None:
+    lon = fields["t2m"]["longitude"].values
+    lat = fields["t2m"]["latitude"].values
+    t2m = fields["t2m"].values
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    cf = ax.contourf(lon, lat, t2m, levels=12, cmap="plasma")
+    cbar = fig.colorbar(cf, ax=ax, shrink=0.95)
+    cbar.set_label("Temperatura 2 m climatológica [°C]")
+
+    cs = ax.contour(lon, lat, t2m, levels=8, colors="k", linewidths=0.7, alpha=0.6)
+    ax.clabel(cs, inline=True, fontsize=8, fmt="%.2f")
+
+    ax.set_title("MP2 Ítem 3 — Mapa climatológico: temperatura 2 m")
+    ax.set_xlabel("Longitud [°]")
+    ax.set_ylabel("Latitud [°]")
+    ax.grid(alpha=0.25)
+
+    fig.tight_layout()
+    fig.savefig(out_png, dpi=220, bbox_inches="tight")
+    plt.close(fig)
+
+
 def write_report(df: pd.DataFrame, out_md: Path) -> None:
     lines = []
     lines.append("# MP2 — Ítem 3 (climatologías regionales)\n")
     lines.append("## Estado")
-    lines.append("Completado (cálculo de climatología mensual regional + figura + tabla).\n")
+    lines.append("Completado (series climatológicas regionales + mapas climatológicos solicitados).\n")
 
     lines.append("## Metodología")
     lines.append("- Fuente: `data/raw/era5_surface_monthly_1996_2025.nc`.")
-    lines.append("- Variables: t2m, sp, u10, v10 y derivada ws10=√(u10²+v10²).")
+    lines.append("- Variables base: t2m, sp, u10, v10; derivada: ws10=√(u10²+v10²).")
     lines.append("- Periodo: 1996–2025 (360 meses).")
     lines.append("- Dominio: caja regional definida en el proyecto.")
-    lines.append("- Procedimiento: media espacial mensual ponderada por área (peso cos(lat)) y luego climatología por mes calendario (enero–diciembre), reportando media y desviación estándar interanual.\n")
+    lines.append("- Media regional mensual: ponderación areal cos(lat).")
+    lines.append("- Mapas: climatología media multianual de cada campo (promedio temporal 1996–2025).\n")
 
     lines.append("## Salidas")
     lines.append("- Tabla: `results/tables/03_climatologia_mensual.csv`")
-    lines.append("- Figura: `results/plots/03_climatologia_mensual_superficie.png`\n")
+    lines.append("- Figura (series): `results/plots/03_climatologia_mensual_superficie.png`")
+    lines.append("- Figura (mapa presión+isobaras+viento): `results/plots/03_mapa_presion_isobaras_viento.png`")
+    lines.append("- Figura (mapa temperatura): `results/plots/03_mapa_temperatura.png`\n")
 
     lines.append("## Resumen numérico (promedio anual de la climatología mensual)")
     for var, meta in VAR_META.items():
         d = df[df["variable"] == var]
         annual_mean = d["clim_mean"].mean()
         annual_std_mean = d["clim_std"].mean()
-        lines.append(f"- {meta['label']}: media anual climatológica = {annual_mean:.3f} {meta['unit_out']}; variabilidad interanual media mensual = {annual_std_mean:.3f} {meta['unit_out']}")
+        lines.append(
+            f"- {meta['label']}: media anual climatológica = {annual_mean:.3f} {meta['unit_out']}; "
+            f"variabilidad interanual media mensual = {annual_std_mean:.3f} {meta['unit_out']}"
+        )
 
     out_md.parent.mkdir(parents=True, exist_ok=True)
     out_md.write_text("\n".join(lines), encoding="utf-8")
@@ -144,21 +223,33 @@ def main() -> None:
     project_root = script_dir.parent.parent
 
     in_nc = project_root / "data" / "raw" / "era5_surface_monthly_1996_2025.nc"
+
     out_csv = project_root / "results" / "tables" / "03_climatologia_mensual.csv"
-    out_png = project_root / "results" / "plots" / "03_climatologia_mensual_superficie.png"
+    out_series_png = project_root / "results" / "plots" / "03_climatologia_mensual_superficie.png"
+    out_map_sp_uv_png = project_root / "results" / "plots" / "03_mapa_presion_isobaras_viento.png"
+    out_map_t_png = project_root / "results" / "plots" / "03_mapa_temperatura.png"
     out_md = project_root / "docs" / "report" / "03_item3_climatologias.md"
 
     out_csv.parent.mkdir(parents=True, exist_ok=True)
-    out_png.parent.mkdir(parents=True, exist_ok=True)
+    out_series_png.parent.mkdir(parents=True, exist_ok=True)
 
     ds = _open_dataset(in_nc)
-    df = compute_climatology(ds)
+
+    df = compute_climatology_monthly_regional(ds)
     df.to_csv(out_csv, index=False)
-    plot_climatology(df, out_png)
+
+    fields = compute_annual_mean_fields(ds)
+
+    plot_climatology_monthly(df, out_series_png)
+    plot_map_pressure_wind(fields, out_map_sp_uv_png)
+    plot_map_temperature(fields, out_map_t_png)
+
     write_report(df, out_md)
 
     print("[OK] Tabla:", out_csv)
-    print("[OK] Figura:", out_png)
+    print("[OK] Figura series:", out_series_png)
+    print("[OK] Mapa presión+viento:", out_map_sp_uv_png)
+    print("[OK] Mapa temperatura:", out_map_t_png)
     print("[OK] Reporte:", out_md)
 
 
