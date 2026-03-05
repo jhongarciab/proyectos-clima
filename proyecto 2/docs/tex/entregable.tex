@@ -102,23 +102,57 @@ validación de la aproximación geostrófica, y (v) comparación del perfil vert
 
 Para el primer ítem se implementó la aproximación de Atmósfera Estándar Internacional (ISA) en una columna vertical de 0 a 20\,km, con resolución de 100\,m. Se usaron las constantes $g_0=9.80665\,\mathrm{m\,s^{-2}}$, $R_d=287.05\,\mathrm{J\,kg^{-1}\,K^{-1}}$, $T_0=288.15\,\mathrm{K}$ y $p_0=101325\,\mathrm{Pa}$.
 
-En la troposfera ($0\le z\le 11\,\mathrm{km}$) se asumió gradiente térmico constante $L=-6.5\,\mathrm{K\,km^{-1}}$:
+\paragraph{Derivación paso a paso.}
+Partimos de dos ecuaciones de base:
 \begin{equation}
-T(z)=T_0+Lz,
+\frac{dp}{dz}=-\rho g_0,
+\label{eq:hidro}
 \end{equation}
-y la presión se obtuvo de la forma politrópica de equilibrio hidrostático:
+\begin{equation}
+p=\rho R_dT.
+\label{eq:ideal}
+\end{equation}
+Sustituyendo \eqref{eq:ideal} en \eqref{eq:hidro}:
+\begin{equation}
+\frac{dp}{dz}=-\frac{p g_0}{R_dT(z)}
+\quad \Rightarrow \quad
+\frac{1}{p}\,dp=-\frac{g_0}{R_dT(z)}\,dz.
+\label{eq:sep}
+\end{equation}
+
+En la troposfera ($0\le z\le 11\,\mathrm{km}$) se asume gradiente térmico constante $L=-6.5\,\mathrm{K\,km^{-1}}$:
+\begin{equation}
+T(z)=T_0+Lz.
+\label{eq:T_tropo}
+\end{equation}
+Reemplazando \eqref{eq:T_tropo} en \eqref{eq:sep} e integrando entre $(p_0,T_0)$ y $(p(z),T(z))$:
+\begin{equation}
+\int_{p_0}^{p(z)}\frac{1}{p'}dp'=-\frac{g_0}{R_d}\int_0^z\frac{1}{T_0+Lz'}dz'
+\end{equation}
+\begin{equation}
+\ln\!\left(\frac{p(z)}{p_0}\right)=-\frac{g_0}{R_dL}\ln\!\left(\frac{T(z)}{T_0}\right),
+\end{equation}
+por lo que
 \begin{equation}
 p(z)=p_0\left(\frac{T(z)}{T_0}\right)^{-\frac{g_0}{R_dL}}.
+\label{eq:p_tropo}
 \end{equation}
 
-En la capa isotérmica baja de estratósfera ($11<z\le 20\,\mathrm{km}$), con $T(z)=T_{11}=216.65\,\mathrm{K}$, se usó:
+En la capa isotérmica baja de estratósfera ($11<z\le 20\,\mathrm{km}$), con $T(z)=T_{11}=216.65\,\mathrm{K}$, la ecuación \eqref{eq:sep} se reduce a:
 \begin{equation}
-p(z)=p_{11}\exp\left[-\frac{g_0(z-11\,000)}{R_dT_{11}}\right].
+\frac{1}{p}\,dp=-\frac{g_0}{R_dT_{11}}\,dz,
 \end{equation}
+que al integrar entre $z_{11}=11\,000\,\mathrm{m}$ y $z$ da:
+\begin{equation}
+p(z)=p_{11}\exp\left[-\frac{g_0(z-z_{11})}{R_dT_{11}}\right],
+\label{eq:p_iso}
+\end{equation}
+donde $p_{11}=p(z_{11})$ se calcula con \eqref{eq:p_tropo}.
 
-Finalmente, la densidad se calculó mediante la ley de gases ideales:
+Finalmente, la densidad se obtiene en cada nivel con:
 \begin{equation}
 \rho(z)=\frac{p(z)}{R_dT(z)}.
+\label{eq:rho}
 \end{equation}
 
 El cálculo fue implementado en el script
