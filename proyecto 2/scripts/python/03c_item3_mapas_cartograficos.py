@@ -73,7 +73,7 @@ def main() -> None:
     )
     ax.quiverkey(q, 0.88, -0.07, 1.0, "1 m s$^{-1}$", labelpos="E")
 
-    ax.set_title("MP2 Ítem 3 — Presión + isobaras + viento (mapa climatológico)")
+    ax.set_title("Climatología de presión superficial con isobaras y viento a 10 m (1996–2025)")
     ax.set_xlabel("Longitud [°]")
     ax.set_ylabel("Latitud [°]")
     ax.set_xlim(LON_MIN, LON_MAX)
@@ -94,7 +94,7 @@ def main() -> None:
     cs = ax.contour(lon, lat, t2m.values, levels=8, colors="k", linewidths=0.9, alpha=0.7, zorder=4)
     ax.clabel(cs, inline=True, fontsize=8, fmt="%.2f")
 
-    ax.set_title("MP2 Ítem 3 — Temperatura (mapa climatológico)")
+    ax.set_title("Climatología de temperatura del aire a 2 m (1996–2025)")
     ax.set_xlabel("Longitud [°]")
     ax.set_ylabel("Latitud [°]")
     ax.set_xlim(LON_MIN, LON_MAX)
