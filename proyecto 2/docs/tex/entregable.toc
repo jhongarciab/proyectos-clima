@@ -1,0 +1,14 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Datos y metodología}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Alcance del estudio (Fase A)}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Atmósfera estándar (Ítem 1)}{2}{subsection.2.2}%
+\contentsline {paragraph}{Derivación paso a paso.}{3}{section*.2}%
+\contentsline {subsection}{\numberline {2.3}Climatologías y análisis geostrófico (Ítems 2--4)}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Perfil vertical regional (Ítem 5)}{4}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Resultados}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Campos verticales de atmósfera estándar}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Mapas climatológicos de presión, temperatura y viento}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Comparación geostrófica vs reanálisis}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Perfil vertical regional vs atmósfera estándar}{5}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Conclusiones}{5}{section.4}%

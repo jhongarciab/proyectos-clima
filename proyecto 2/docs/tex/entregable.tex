@@ -75,28 +75,11 @@ validación de la aproximación geostrófica, y (v) comparación del perfil vert
 
 \subsection{Alcance del estudio (Fase A)}
 
-\textbf{Región definida (caja rectangular):}
-\begin{itemize}
-    \item Latitud: 4.0\,$^{\circ}$N a 5.5\,$^{\circ}$N
-    \item Longitud: -76.5\,$^{\circ}$ a -75.0\,$^{\circ}$
-\end{itemize}
+El dominio espacial del estudio se definió como una caja rectangular sobre la región andina occidental de Colombia, entre 4.0\,$^{\circ}$N y 5.5\,$^{\circ}$N de latitud, y entre -76.5\,$^{\circ}$ y -75.0\,$^{\circ}$ de longitud. Esta región incluye el entorno ampliado del Eje Cafetero y permite estimar gradientes horizontales de presión y viento con resolución suficiente para el análisis geostrófico, manteniendo al mismo tiempo un volumen de datos manejable para procesamiento local.
 
-\textbf{Fuente de datos seleccionada:} ERA5 (ECMWF/Copernicus).
+Como fuente principal se seleccionó ERA5 (ECMWF/Copernicus), por su consistencia física, cobertura temporal continua y uso extendido en estudios atmosféricos regionales. El período climatológico adoptado fue 2015--2024, completando una ventana de diez años para asegurar estabilidad estadística en los promedios y comparabilidad con la línea de trabajo previa.
 
-\textbf{Período climatológico:} 2015--2024 (10 años).
-
-\textbf{Variables de superficie objetivo:}
-\begin{itemize}
-    \item Temperatura del aire a 2 m ($T_{2m}$)
-    \item Presión en superficie ($p_s$)
-    \item Componentes zonal y meridional del viento a 10 m ($u_{10}, v_{10}$)
-\end{itemize}
-
-\textbf{Variables para perfil vertical:}
-\begin{itemize}
-    \item Temperatura en niveles de presión
-    \item Geopotencial/altura geopotencial en niveles de presión
-\end{itemize}
+Para superficie se definieron como variables objetivo la temperatura del aire a 2\,m ($T_{2m}$), la presión en superficie ($p_s$) y las componentes zonal y meridional del viento a 10\,m ($u_{10}, v_{10}$). Para el análisis vertical se fijaron temperatura y geopotencial en niveles de presión, con el fin de reconstruir perfiles térmicos regionales y contrastarlos posteriormente con la atmósfera estándar desarrollada en el primer ítem.
 
 \subsection{Atmósfera estándar (Ítem 1)}
 
