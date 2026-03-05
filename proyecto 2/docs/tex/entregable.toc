@@ -9,6 +9,6 @@
 \contentsline {section}{\numberline {3}Resultados}{4}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Campos verticales de atmósfera estándar}{4}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Mapas climatológicos de presión, temperatura y viento}{5}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Comparación geostrófica vs reanálisis}{5}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Perfil vertical regional vs atmósfera estándar}{5}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Conclusiones}{5}{section.4}%
+\contentsline {subsection}{\numberline {3.3}Comparación geostrófica vs reanálisis}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Perfil vertical regional vs atmósfera estándar}{7}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Conclusiones}{7}{section.4}%
