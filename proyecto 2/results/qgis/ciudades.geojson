@@ -1,0 +1,71 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.6946,
+          4.8143
+        ]
+      },
+      "properties": {
+        "nombre": "Pereira",
+        "elevacion_m": 1411,
+        "label": "Pereira (1411 m)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.6811,
+          4.5339
+        ]
+      },
+      "properties": {
+        "nombre": "Armenia",
+        "elevacion_m": 1483,
+        "label": "Armenia (1483 m)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.5138,
+          5.0703
+        ]
+      },
+      "properties": {
+        "nombre": "Manizales",
+        "elevacion_m": 2153,
+        "label": "Manizales (2153 m)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.2322,
+          4.4389
+        ]
+      },
+      "properties": {
+        "nombre": "Ibagu\u00e9",
+        "elevacion_m": 1285,
+        "label": "Ibagu\u00e9 (1285 m)"
+      }
+    }
+  ]
+}

@@ -1,330 +1,218 @@
 #!/usr/bin/env python3
 """
-Ítem 3 — Mini Proyecto 2
-Climatologías regionales de superficie ERA5 (1996–2025).
+Ítem 3 — Exportación a GeoTIFF para QGIS
+Genera un GeoTIFF por variable climatológica (promedio 1996-2025):
+  - t2m  : Temperatura 2 m [°C]
+  - sp   : Presión superficial [hPa]
+  - u10  : Viento zonal 10 m [m/s]
+  - v10  : Viento meridional 10 m [m/s]
+  - ws10 : Rapidez del viento [m/s]
+  - isolineas_presion : GeoJSON con isobaras (para capa vectorial en QGIS)
 
-Salidas:
-- results/tables/03_climatologia_mensual.csv
-- results/plots/03_climatologia_mensual_superficie.png
-- results/plots/03_mapa_presion_isobaras_viento.png
-- results/plots/03_mapa_temperatura.png
-- docs/report/03_item3_climatologias.md
+Salidas (en results/qgis/):
+  - t2m_climatologia.tif
+  - sp_climatologia.tif
+  - u10_climatologia.tif
+  - v10_climatologia.tif
+  - ws10_climatologia.tif
+  - isobaras_presion.geojson
+
+Requisitos: pip install xarray netCDF4 rasterio numpy
 """
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
-from urllib.request import urlopen
-import ssl
+
 import numpy as np
-import pandas as pd
 import xarray as xr
-import matplotlib.pyplot as plt
 
-MONTHS = np.arange(1, 13)
-MONTH_LABELS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+try:
+    import rasterio
+    from rasterio.crs import CRS
+except ModuleNotFoundError as exc:
+    raise ModuleNotFoundError(
+        "Falta 'rasterio'. Instálalo con: python3 -m pip install rasterio"
+    ) from exc
 
-VAR_META = {
-    "t2m": {"label": "Temperatura 2 m", "unit_out": "°C", "convert": lambda x: x - 273.15},
-    "sp": {"label": "Presión superficial", "unit_out": "hPa", "convert": lambda x: x / 100.0},
-    "u10": {"label": "Viento zonal 10 m (u)", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
-    "v10": {"label": "Viento meridional 10 m (v)", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
-    "ws10": {"label": "Rapidez del viento 10 m", "unit_out": "m s$^{-1}$", "convert": lambda x: x},
+
+# ─────────────────────────────────────────
+# Configuración de variables a exportar
+# ─────────────────────────────────────────
+EXPORT_VARS = {
+    "t2m":  {"src": "t2m",  "convert": lambda x: x - 273.15, "desc": "Temperatura 2m [C]"},
+    "sp":   {"src": "sp",   "convert": lambda x: x / 100.0,  "desc": "Presion superficial [hPa]"},
+    "u10":  {"src": "u10",  "convert": lambda x: x,           "desc": "Viento zonal 10m [m/s]"},
+    "v10":  {"src": "v10",  "convert": lambda x: x,           "desc": "Viento meridional 10m [m/s]"},
 }
 
-CITIES = {
-    "Pereira": (4.8143, -75.6946),
-    "Armenia": (4.5339, -75.6811),
-    "Manizales": (5.0703, -75.5138),
-    "Ibagué": (4.4389, -75.2322),
-}
+# Niveles de isobaras a exportar como vectores
+ISOBAR_LEVELS = [760, 780, 800, 820, 840, 860, 880, 900]
 
 
-def _download_basemap(lon_min: float, lat_min: float, lon_max: float, lat_max: float, out_png: Path) -> Path | None:
-    """Descarga fondo de mapa (ArcGIS World Topo) para el bbox en EPSG:4326."""
-    url = (
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/export"
-        f"?bbox={lon_min},{lat_min},{lon_max},{lat_max}"
-        "&bboxSR=4326&imageSR=4326&size=1200,900&format=png&f=image"
-    )
-    try:
-        out_png.parent.mkdir(parents=True, exist_ok=True)
-        ctx = ssl._create_unverified_context()
-        with urlopen(url, context=ctx, timeout=30) as resp:
-            data = resp.read()
-        out_png.write_bytes(data)
-        return out_png if out_png.exists() and out_png.stat().st_size > 0 else None
-    except Exception:
-        return None
-
-
-def _annotate_cities(ax, lon_min: float, lat_min: float, lon_max: float, lat_max: float) -> None:
-    for name, (lat, lon) in CITIES.items():
-        if lat_min <= lat <= lat_max and lon_min <= lon <= lon_max:
-            ax.scatter(lon, lat, s=65, c="yellow", edgecolors="black", linewidths=0.9, zorder=6)
-            ax.text(
-                lon + 0.03,
-                lat + 0.02,
-                name,
-                fontsize=11,
-                fontweight="bold",
-                color="black",
-                zorder=7,
-                bbox=dict(boxstyle="round,pad=0.28", fc="white", ec="black", alpha=0.85),
-            )
-
-
-def _open_dataset(nc_path: Path) -> xr.Dataset:
+def open_dataset(nc_path: Path) -> xr.Dataset:
     return xr.open_dataset(nc_path)
 
 
-def _time_dim(ds: xr.Dataset) -> str:
-    return "time" if "time" in ds.dims else "valid_time"
+def time_dim(ds: xr.Dataset) -> str:
+    return "valid_time" if "valid_time" in ds.dims else "time"
 
 
-def compute_climatology_monthly_regional(ds: xr.Dataset) -> pd.DataFrame:
-    rows = []
-    tdim = _time_dim(ds)
+def compute_mean_fields(ds: xr.Dataset) -> dict[str, np.ndarray]:
+    """Calcula el promedio climatológico multianual de cada variable."""
+    tdim = time_dim(ds)
+    fields = {}
+    for name, meta in EXPORT_VARS.items():
+        da = ds[meta["src"]].mean(tdim, skipna=True)
+        fields[name] = meta["convert"](da.values)
 
-    lat_weights = np.cos(np.deg2rad(ds["latitude"]))
-    lat_weights = lat_weights / lat_weights.mean()
-
-    ws10 = np.sqrt(ds["u10"] ** 2 + ds["v10"] ** 2)
-
-    for var, meta in VAR_META.items():
-        da = ws10 if var == "ws10" else ds[var]
-
-        ts_region = da.weighted(lat_weights).mean(dim=("latitude", "longitude"), skipna=True)
-        ts_region = meta["convert"](ts_region)
-
-        clim_mean = ts_region.groupby(f"{tdim}.month").mean(tdim, skipna=True)
-        clim_std = ts_region.groupby(f"{tdim}.month").std(tdim, skipna=True)
-
-        for m in MONTHS:
-            rows.append(
-                {
-                    "variable": var,
-                    "descripcion": meta["label"],
-                    "unidad": meta["unit_out"],
-                    "month": int(m),
-                    "month_name": MONTH_LABELS[m - 1],
-                    "clim_mean": float(clim_mean.sel(month=m).item()),
-                    "clim_std": float(clim_std.sel(month=m).item()),
-                }
-            )
-
-    return pd.DataFrame(rows)
+    # Rapidez del viento derivada
+    fields["ws10"] = np.sqrt(fields["u10"] ** 2 + fields["v10"] ** 2)
+    return fields
 
 
-def compute_annual_mean_fields(ds: xr.Dataset) -> dict[str, xr.DataArray]:
-    """Campo climatológico medio multianual (promedio de todos los meses 1996–2025)."""
-    tdim = _time_dim(ds)
+def get_grid(ds: xr.Dataset):
+    """Devuelve latitudes (N→S), longitudes (W→E) y el transform rasterio."""
+    lat = ds["latitude"].values   # ya viene N→S: [5.5, 5.25, ..., 4.0]
+    lon = ds["longitude"].values  # W→E: [-76.5, ..., -75.0]
 
-    t2m_c = VAR_META["t2m"]["convert"](ds["t2m"])
-    sp_hpa = VAR_META["sp"]["convert"](ds["sp"])
-    u10 = ds["u10"]
-    v10 = ds["v10"]
+    # rasterio from_bounds espera (west, south, east, north)
+    west, east = float(lon.min()), float(lon.max())
+    south, north = float(lat.min()), float(lat.max())
+    nrows, ncols = len(lat), len(lon)
 
-    return {
-        "t2m": t2m_c.mean(tdim, skipna=True),
-        "sp": sp_hpa.mean(tdim, skipna=True),
-        "u10": u10.mean(tdim, skipna=True),
-        "v10": v10.mean(tdim, skipna=True),
+    # pixel_size
+    res_lon = (east  - west)  / (ncols - 1)
+    res_lat = (north - south) / (nrows - 1)
+
+    # El transform: origen en la esquina superior-izquierda del primer píxel
+    # (west - res/2, north + res/2) con píxel de tamaño res_lon x -res_lat
+    transform = rasterio.transform.from_origin(
+        west  - res_lon / 2,
+        north + res_lat / 2,
+        res_lon,
+        res_lat,
+    )
+    return lat, lon, nrows, ncols, transform
+
+
+def export_geotiffs(fields: dict[str, np.ndarray],
+                    nrows: int, ncols: int,
+                    transform, out_dir: Path) -> None:
+    """Exporta cada campo como GeoTIFF Float32 en WGS84."""
+    crs = CRS.from_epsg(4326)
+    var_names = list(EXPORT_VARS.keys()) + ["ws10"]
+
+    for name in var_names:
+        data = fields[name].astype(np.float32)
+
+        # ERA5: latitudes N→S → el array[0,:] es la fila norte → correcto para rasterio
+        out_path = out_dir / f"{name}_climatologia.tif"
+        with rasterio.open(
+            out_path,
+            "w",
+            driver="GTiff",
+            height=nrows,
+            width=ncols,
+            count=1,
+            dtype="float32",
+            crs=crs,
+            transform=transform,
+            nodata=np.nan,
+        ) as dst:
+            dst.write(data, 1)
+            dst.update_tags(description=EXPORT_VARS.get(name, {}).get("desc", name))
+
+        print(f"[OK] GeoTIFF: {out_path.name}  "
+              f"(min={data.min():.3f}, max={data.max():.3f})")
+
+
+def export_isobars_geojson(fields: dict[str, np.ndarray],
+                           lat: np.ndarray, lon: np.ndarray,
+                           out_path: Path) -> None:
+    """
+    Calcula isolíneas de presión con matplotlib y las exporta como GeoJSON
+    para cargar en QGIS como capa vectorial de líneas.
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    sp = fields["sp"]
+
+    # Filtrar niveles que realmente existen en los datos
+    sp_min, sp_max = float(sp.min()), float(sp.max())
+    levels = [lv for lv in ISOBAR_LEVELS if sp_min <= lv <= sp_max]
+
+    if not levels:
+        print("[WARN] Ningún nivel de isobara dentro del rango de datos. "
+              f"Rango sp: {sp_min:.1f}–{sp_max:.1f} hPa")
+        return
+
+    fig, ax = plt.subplots()
+    cs = ax.contour(lon, lat, sp, levels=levels)
+
+    features = []
+    for i, level in enumerate(cs.levels):
+        for seg in cs.allsegs[i]:
+            coords = seg.tolist()
+            if len(coords) < 2:
+                continue
+            features.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [[c[0], c[1]] for c in coords],
+                },
+                "properties": {
+                    "presion_hPa": round(float(level), 1),
+                    "label": f"{level:.0f} hPa",
+                },
+            })
+
+    plt.close(fig)
+
+    geojson = {
+        "type": "FeatureCollection",
+        "crs": {"type": "name", "properties": {"name": "EPSG:4326"}},
+        "features": features,
     }
 
-
-def plot_climatology_monthly(df: pd.DataFrame, out_png: Path) -> None:
-    vars_to_plot = list(VAR_META.keys())
-    n = len(vars_to_plot)
-    ncols = 2
-    nrows = int(np.ceil(n / ncols))
-
-    fig, axes = plt.subplots(nrows, ncols, figsize=(12, 3.6 * nrows), sharex=True)
-    axes = np.array(axes).reshape(-1)
-
-    for ax, var in zip(axes, vars_to_plot):
-        d = df[df["variable"] == var].sort_values("month")
-        x = d["month"].to_numpy()
-        y = d["clim_mean"].to_numpy()
-        s = d["clim_std"].to_numpy()
-
-        ax.plot(x, y, lw=2)
-        ax.fill_between(x, y - s, y + s, alpha=0.2)
-        ax.set_title(f"{VAR_META[var]['label']} [{VAR_META[var]['unit_out']}]")
-        ax.set_xticks(MONTHS)
-        ax.set_xticklabels(MONTH_LABELS)
-        ax.grid(alpha=0.3)
-
-    for ax in axes[n:]:
-        ax.axis("off")
-
-    fig.suptitle("MP2 — Ítem 3: climatología mensual regional (1996–2025)", fontsize=12)
-    fig.tight_layout()
-    fig.savefig(out_png, dpi=220)
-    plt.close(fig)
-
-
-def plot_map_pressure_wind(fields: dict[str, xr.DataArray], out_png: Path, basemap_path: Path | None = None) -> None:
-    lon = fields["sp"]["longitude"].values
-    lat = fields["sp"]["latitude"].values
-    sp = fields["sp"].values
-    u = fields["u10"].values
-    v = fields["v10"].values
-
-    lon_min, lon_max = float(np.min(lon)), float(np.max(lon))
-    lat_min, lat_max = float(np.min(lat)), float(np.max(lat))
-
-    fig, ax = plt.subplots(figsize=(8, 6))
-
-    if basemap_path and basemap_path.exists():
-        img = plt.imread(basemap_path)
-        ax.imshow(img, extent=[lon_min, lon_max, lat_min, lat_max], origin="upper", alpha=0.85, zorder=0)
-
-    cf = ax.contourf(lon, lat, sp, levels=12, cmap="viridis", alpha=0.52, zorder=2)
-    cbar = fig.colorbar(cf, ax=ax, shrink=0.95)
-    cbar.set_label("Presión superficial climatológica [hPa]")
-
-    # Isobaras
-    cs = ax.contour(lon, lat, sp, levels=8, colors="white", linewidths=1.2, zorder=4)
-    ax.clabel(cs, inline=True, fontsize=8, fmt="%.1f")
-
-    # Viento (submuestreo para legibilidad)
-    step = 1 if len(lat) <= 10 else 2
-    q = ax.quiver(
-        lon[::step],
-        lat[::step],
-        u[::step, ::step],
-        v[::step, ::step],
-        color="black",
-        scale=8,
-        width=0.003,
-        zorder=5,
-    )
-    ax.quiverkey(q, 0.90, -0.08, 1.0, "1 m s$^{-1}$", labelpos="E")
-
-    _annotate_cities(ax, lon_min, lat_min, lon_max, lat_max)
-
-    ax.set_title("MP2 Ítem 3 — Mapa climatológico: presión + isobaras + viento 10 m")
-    ax.set_xlabel("Longitud [°]")
-    ax.set_ylabel("Latitud [°]")
-    ax.set_xlim(lon_min, lon_max)
-    ax.set_ylim(lat_min, lat_max)
-    ax.grid(alpha=0.25)
-
-    fig.tight_layout()
-    fig.savefig(out_png, dpi=220, bbox_inches="tight")
-    plt.close(fig)
-
-
-def plot_map_temperature(fields: dict[str, xr.DataArray], out_png: Path, basemap_path: Path | None = None) -> None:
-    lon = fields["t2m"]["longitude"].values
-    lat = fields["t2m"]["latitude"].values
-    t2m = fields["t2m"].values
-
-    lon_min, lon_max = float(np.min(lon)), float(np.max(lon))
-    lat_min, lat_max = float(np.min(lat)), float(np.max(lat))
-
-    fig, ax = plt.subplots(figsize=(8, 6))
-
-    if basemap_path and basemap_path.exists():
-        img = plt.imread(basemap_path)
-        ax.imshow(img, extent=[lon_min, lon_max, lat_min, lat_max], origin="upper", alpha=0.85, zorder=0)
-
-    cf = ax.contourf(lon, lat, t2m, levels=12, cmap="plasma", alpha=0.52, zorder=2)
-    cbar = fig.colorbar(cf, ax=ax, shrink=0.95)
-    cbar.set_label("Temperatura 2 m climatológica [°C]")
-
-    cs = ax.contour(lon, lat, t2m, levels=8, colors="k", linewidths=0.8, alpha=0.7, zorder=4)
-    ax.clabel(cs, inline=True, fontsize=8, fmt="%.2f")
-
-    _annotate_cities(ax, lon_min, lat_min, lon_max, lat_max)
-
-    ax.set_title("MP2 Ítem 3 — Mapa climatológico: temperatura 2 m")
-    ax.set_xlabel("Longitud [°]")
-    ax.set_ylabel("Latitud [°]")
-    ax.set_xlim(lon_min, lon_max)
-    ax.set_ylim(lat_min, lat_max)
-    ax.grid(alpha=0.25)
-
-    fig.tight_layout()
-    fig.savefig(out_png, dpi=220, bbox_inches="tight")
-    plt.close(fig)
-
-
-def write_report(df: pd.DataFrame, out_md: Path) -> None:
-    lines = []
-    lines.append("# MP2 — Ítem 3 (climatologías regionales)\n")
-    lines.append("## Estado")
-    lines.append("Completado (series climatológicas regionales + mapas climatológicos solicitados).\n")
-
-    lines.append("## Metodología")
-    lines.append("- Fuente: `data/raw/era5_surface_monthly_1996_2025.nc`.")
-    lines.append("- Variables base: t2m, sp, u10, v10; derivada: ws10=√(u10²+v10²).")
-    lines.append("- Periodo: 1996–2025 (360 meses).")
-    lines.append("- Dominio: caja regional definida en el proyecto.")
-    lines.append("- Media regional mensual: ponderación areal cos(lat).")
-    lines.append("- Mapas: climatología media multianual de cada campo (promedio temporal 1996–2025).\n")
-
-    lines.append("## Salidas")
-    lines.append("- Tabla: `results/tables/03_climatologia_mensual.csv`")
-    lines.append("- Figura (series): `results/plots/03_climatologia_mensual_superficie.png`")
-    lines.append("- Figura (mapa presión+isobaras+viento): `results/plots/03_mapa_presion_isobaras_viento.png`")
-    lines.append("- Figura (mapa temperatura): `results/plots/03_mapa_temperatura.png`\n")
-
-    lines.append("## Resumen numérico (promedio anual de la climatología mensual)")
-    for var, meta in VAR_META.items():
-        d = df[df["variable"] == var]
-        annual_mean = d["clim_mean"].mean()
-        annual_std_mean = d["clim_std"].mean()
-        lines.append(
-            f"- {meta['label']}: media anual climatológica = {annual_mean:.3f} {meta['unit_out']}; "
-            f"variabilidad interanual media mensual = {annual_std_mean:.3f} {meta['unit_out']}"
-        )
-
-    out_md.parent.mkdir(parents=True, exist_ok=True)
-    out_md.write_text("\n".join(lines), encoding="utf-8")
+    out_path.write_text(json.dumps(geojson, indent=2), encoding="utf-8")
+    print(f"[OK] GeoJSON isobaras: {out_path.name}  "
+          f"({len(features)} segmentos, niveles: {levels})")
 
 
 def main() -> None:
-    script_dir = Path(__file__).resolve().parent
+    script_dir   = Path(__file__).resolve().parent
     project_root = script_dir.parent.parent
 
-    in_nc = project_root / "data" / "raw" / "era5_surface_monthly_1996_2025.nc"
+    in_nc   = project_root / "data" / "raw" / "era5_surface_monthly_1996_2025.nc"
+    out_dir = project_root / "results" / "qgis"
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    out_csv = project_root / "results" / "tables" / "03_climatologia_mensual.csv"
-    out_series_png = project_root / "results" / "plots" / "03_climatologia_mensual_superficie.png"
-    out_map_sp_uv_png = project_root / "results" / "plots" / "03_mapa_presion_isobaras_viento.png"
-    out_map_t_png = project_root / "results" / "plots" / "03_mapa_temperatura.png"
-    out_md = project_root / "docs" / "report" / "03_item3_climatologias.md"
+    print("[INFO] Leyendo NetCDF...")
+    ds = open_dataset(in_nc)
 
-    out_csv.parent.mkdir(parents=True, exist_ok=True)
-    out_series_png.parent.mkdir(parents=True, exist_ok=True)
+    print("[INFO] Calculando campos climatológicos medios...")
+    fields = compute_mean_fields(ds)
 
-    ds = _open_dataset(in_nc)
+    lat, lon, nrows, ncols, transform = get_grid(ds)
 
-    df = compute_climatology_monthly_regional(ds)
-    df.to_csv(out_csv, index=False)
+    print(f"[INFO] Grilla: {nrows}x{ncols} | "
+          f"lat [{lat[-1]:.2f}–{lat[0]:.2f}] | "
+          f"lon [{lon[0]:.2f}–{lon[-1]:.2f}]")
 
-    fields = compute_annual_mean_fields(ds)
+    print("\n[INFO] Exportando GeoTIFFs...")
+    export_geotiffs(fields, nrows, ncols, transform, out_dir)
 
-    lon = fields["sp"]["longitude"].values
-    lat = fields["sp"]["latitude"].values
-    lon_min, lon_max = float(np.min(lon)), float(np.max(lon))
-    lat_min, lat_max = float(np.min(lat)), float(np.max(lat))
-    basemap_path = project_root / "results" / "plots" / "03_basemap_arcgis.png"
-    basemap_path = _download_basemap(lon_min, lat_min, lon_max, lat_max, basemap_path)
+    print("\n[INFO] Exportando isobaras como GeoJSON...")
+    export_isobars_geojson(fields, lat, lon,
+                           out_dir / "isobaras_presion.geojson")
 
-    plot_climatology_monthly(df, out_series_png)
-    plot_map_pressure_wind(fields, out_map_sp_uv_png, basemap_path=basemap_path)
-    plot_map_temperature(fields, out_map_t_png, basemap_path=basemap_path)
-
-    write_report(df, out_md)
-
-    print("[OK] Tabla:", out_csv)
-    print("[OK] Figura series:", out_series_png)
-    print("[OK] Mapa presión+viento:", out_map_sp_uv_png)
-    print("[OK] Mapa temperatura:", out_map_t_png)
-    print("[OK] Reporte:", out_md)
+    print(f"\n[OK] Todos los archivos en: {out_dir}")
+    print("     Carga en QGIS: Capa > Agregar capa > Capa ráster (.tif) / Capa vectorial (.geojson)")
 
 
 if __name__ == "__main__":
