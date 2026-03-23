@@ -1,2 +1,2 @@
-rmse_K,bias_K,mae_K,n_levels,z_min_m,z_max_m
-15.649919043566465,9.046631398201,14.914759348233554,12,116.45967864990234,16575.41796875
+rmse_K,bias_K,mae_K,n_levels,z_min_m,z_max_m,max_warm_bias_K,max_cold_bias_K,z_at_max_warm_m,z_at_max_cold_m
+15.5993,5.6324,14.9060,14,116.4606,20595.2966,18.8127,-23.9257,7584.7991,16575.4185
