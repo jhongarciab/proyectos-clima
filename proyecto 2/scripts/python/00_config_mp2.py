@@ -20,8 +20,11 @@ ERA5_SURFACE_VARIABLES = [
 ERA5_PRESSURE_LEVEL_VARIABLES = [
     "temperature",
     "geopotential",
+    "u_component_of_wind",
+    "v_component_of_wind",
 ]
 
 PRESSURE_LEVELS_HPA = [
-    "1000", "925", "850", "700", "600", "500", "400", "300", "250", "200", "150", "100",
+    "1000", "925", "850", "700", "600", "500",
+    "400", "300", "250", "200", "150", "100", "70", "50",
 ]
