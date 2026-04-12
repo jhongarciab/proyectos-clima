@@ -1,0 +1,67 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "M\u00e1scara exterior regi\u00f3n MP2",
+        "label": "Exterior regi\u00f3n"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -78.5,
+              2.5
+            ],
+            [
+              -73.5,
+              2.5
+            ],
+            [
+              -73.5,
+              7.0
+            ],
+            [
+              -78.5,
+              7.0
+            ],
+            [
+              -78.5,
+              2.5
+            ]
+          ],
+          [
+            [
+              -76.5,
+              4.0
+            ],
+            [
+              -75.0,
+              4.0
+            ],
+            [
+              -75.0,
+              5.5
+            ],
+            [
+              -76.5,
+              5.5
+            ],
+            [
+              -76.5,
+              4.0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

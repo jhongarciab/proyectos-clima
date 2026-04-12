@@ -1,0 +1,49 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -76.5,
+              4.0
+            ],
+            [
+              -75.0,
+              4.0
+            ],
+            [
+              -75.0,
+              5.5
+            ],
+            [
+              -76.5,
+              5.5
+            ],
+            [
+              -76.5,
+              4.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "nombre": "Regi\u00f3n de an\u00e1lisis MP2",
+        "west": -76.5,
+        "east": -75.0,
+        "south": 4.0,
+        "north": 5.5,
+        "label": "Regi\u00f3n de an\u00e1lisis"
+      }
+    }
+  ]
+}
