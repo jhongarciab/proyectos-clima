@@ -27,7 +27,6 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-from matplotlib.lines import Line2D
 
 # Tipografía estilo LaTeX sin depender de una instalación TeX externa.
 # Si en tu equipo tienes LaTeX instalado, reemplaza las dos primeras líneas por:
@@ -256,20 +255,8 @@ def plot_spine_sharing(df: pd.DataFrame, out_pdf: Path,
                     sub["density_kg_m3"].max() + 0.04 * ptp_rho)
     ax_rho.set_ylim(z_min_km, z_max_km)
 
-    # ── Leyenda ──────────────────────────────────────────────────────────────
-    legend_elements = [
-        Line2D([0], [0], color=COLORS["T"],   lw=1.8,
-               label="Temperatura [K]"),
-        Line2D([0], [0], color=COLORS["p"],   lw=1.8, ls="--",
-               label="Presión [hPa]"),
-        Line2D([0], [0], color=COLORS["rho"], lw=1.8, ls=":",
-               label=r"Densidad [kg m$^{-3}$]"),
-    ]
-    ax_T.legend(handles=legend_elements, loc="upper right",
-                framealpha=0.88, edgecolor="#cccccc")
-
     ax_T.set_title(
-        "Atmósfera estándar ISA — perfiles verticales " + title_suffix,
+        "Atmósfera estándar ISA — Perfiles Verticales",
         pad=10,
     )
 
