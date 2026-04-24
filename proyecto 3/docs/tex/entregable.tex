@@ -35,8 +35,8 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\small Región Andina occidental (1996--2025)}
-\rhead{\small Mini Proyecto 2}
+\lhead{\small Journal of Geophysical Research: Atmospheres}
+\rhead{\small Mini Proyecto 3}
 \rfoot{\thepage}
 
 % --- Bibliografía ---
@@ -66,7 +66,7 @@
 
 \subsection{Contexto y motivación}
 
-El equilibrio radiativo-convectivo (RCE, por sus siglas en inglés) describe un estado de balance entre el enfriamiento de la atmósfera por radiación y el calentamiento producido por la liberación de calor latente en la precipitación y por los flujos de calor sensible desde la superficie. Si bien el RCE constituye una restricción energética bien establecida a escala global, se sabe poco sobre la proximidad de la atmósfera tropical real a este estado en escalas espaciales y temporales más pequeñas, a pesar de su uso frecuente en estudios de modelado idealizados. Esta brecha de conocimiento motiva el trabajo de \cite{jakob2019rce}, que proporciona la primera evaluación observacional de las escalas a las que la atmósfera tropical se encuentra cerca del RCE.
+El equilibrio radiativo-convectivo (RCE, por sus siglas en inglés) describe un estado de balance entre el enfriamiento de la atmósfera por radiación y el calentamiento producido por la liberación de calor latente en la precipitación y por los flujos de calor sensible desde la superficie. Si bien el RCE constituye una restricción energética bien establecida a escala global, se sabe poco sobre la proximidad de la atmósfera tropical real a este estado en escalas espaciales y temporales más pequeñas, a pesar de su uso frecuente en estudios de modelado idealizados. Esta brecha de conocimiento motiva el trabajo de Jakob et. al.~\cite{jakob2019rce}, que proporciona la primera evaluación observacional de las escalas a las que la atmósfera tropical se encuentra cerca del RCE.
 
 El estudio responde tres preguntas fundamentales:
 \begin{enumerate}
@@ -159,13 +159,13 @@ dominios pequeños para representar el comportamiento observado de la atmósfera
 	\begin{subfigure}[t]{0.48\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{../../figuras/jakob2019_fig01_original.png}
-		\caption{Original — Jakob et al. (2019)}
+		\caption*{Original — Jakob et al. (2019)}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.46\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{../../figuras/fig01_jakob2019.png}
-		\caption{Réplica}
+		\caption*{Réplica}
 	\end{subfigure}
 	\caption{Promedio de 9 años de la precipitación expresada en unidades de energía
 		($P_E$, superior), el enfriamiento radiativo atmosférico ($Q_R$, medio) y el flujo
@@ -208,12 +208,7 @@ donde el enfriamiento radiativo domina. El panel~(b) confirma que las regiones d
 desequilibrio positivo están asociadas con movimiento vertical ascendente (omega
 negativo), mientras que las de desequilibrio negativo corresponden a subsidencia
 (omega positivo), evidenciando el papel de la circulación dinámica en mantener a la
-atmósfera local alejada del RCE a lo largo del tiempo.
-
-La réplica reproduce fielmente los patrones espaciales del original en ambos paneles.
-El panel~(b) presenta celdas visualmente más grandes debido a la resolución nativa
-de $2.5^\circ \times 2.5^\circ$ del reanálisis NCEP~1, idéntica a la usada por
-\cite{jakob2019rce}.
+atmósfera local alejada del RCE a lo largo del tiempo. La réplica reproduce fielmente los patrones espaciales del original en ambos paneles.
 
 \subsection{Figura 3}
 
@@ -258,8 +253,8 @@ histograma no alcanzan la saturación visual del original: dado que la densidad 
 distribuye sobre un rango más amplio de $P_E$, ninguna celda individual acumula la
 fracción de frecuencia suficiente para aparecer completamente negra. Ambas diferencias
 son sistemáticas y consistentes con la versión de datos utilizada; los patrones
-cualitativos ---la concentración en bajas precipitaciones, la anticorrelación a altas
-precipitaciones y la estructura de cinco regiones--- se reproducen correctamente.
+cualitativos (la concentración en bajas precipitaciones, la anticorrelación a altas
+precipitaciones y la estructura de cinco regiones) se reproducen correctamente.
 
 \subsection{Figura 4}
 
@@ -287,13 +282,13 @@ Esta inversión es una consecuencia directa y predecible del desplazamiento sist
 de $P_E$ descrito en la Figura~3. El límite horizontal de clasificación entre regiones
 se fija en $Q_R = -105\,\text{W\,m}^{-2}$ siguiendo el paper original. Sin embargo,
 nuestra media tropical de $Q_R$ es de $-106.7\,\text{W\,m}^{-2}$ frente a
-$-104.5\,\text{W\,m}^{-2}$ del paper --- una diferencia de $2.2\,\text{W\,m}^{-2}$
+$-104.5\,\text{W\,m}^{-2}$ del paper, una diferencia de $2.2\,\text{W\,m}^{-2}$
 atribuible a la versión más reciente de CERES (Ed4.2 vs Ed4a). Esto desplaza la
 línea de corte justo en la zona de mayor densidad del histograma: en el paper la
-mayoría de los puntos de precipitación intermedia caen \emph{por encima} de $-105$
-(región~3), mientras que en nuestra réplica caen \emph{por debajo} (región~4). Los
-patrones geográficos globales --- la distribución de desiertos, océanos subtropicales,
-ZCIT y regiones continentales --- son cualitativamente idénticos entre ambas versiones;
+mayoría de los puntos de precipitación intermedia caen por encima de $-105$
+(región~3), mientras que en nuestra réplica caen por debajo (región~4). Los
+patrones geográficos globales (la distribución de desiertos, océanos subtropicales,
+ZCIT y regiones continentales ) son cualitativamente idénticos entre ambas versiones;
 únicamente la etiqueta de región difiere por el desplazamiento del umbral de
 clasificación.
 
@@ -336,8 +331,7 @@ diferencia de versión de CERES. El resultado es que la media de $D_{\text{RCE}}
 es de $17.3\,\text{W\,m}^{-2}$ en lugar de $3.3\,\text{W\,m}^{-2}$, por lo que
 la línea diagonal fue desplazada en $17.3\,\text{W\,m}^{-2}$ para que represente
 correctamente la isopleta de $D_{\text{RCE}}$ medio de nuestros datos. La forma
-y estrechez de la distribución --- que es el resultado físico central de esta figura
---- se reproduce correctamente, confirmando que la atmósfera tropical promediada
+y estrechez de la distribución (que es el resultado físico central de esta figura) se reproduce correctamente, confirmando que la atmósfera tropical promediada
 permanece cerca del RCE en escala diaria también con los datos más recientes.
 
 \subsection{Figura 6}
@@ -381,8 +375,8 @@ convectivos de esa región. La media de $Q_R$ es de $-100.8\,\text{W\,m}^{-2}$,
 prácticamente idéntica al original, confirmando que las diferencias son exclusivamente
 atribuibles a $P_E$. La consecuencia es un $D_{\text{RCE}}$ medio de
 $89.5\,\text{W\,m}^{-2}$, sustancialmente mayor que el $\approx 0$ esperado.
-La forma cualitativa de la distribución --- más ancha que en la Figura~5 y estirada
-hacia valores altos de $P_E + H$ --- se reproduce correctamente.
+La forma cualitativa de la distribución (más ancha que en la Figura~5 y estirada
+hacia valores altos de $P_E + H$) se reproduce correctamente.
 
 \subsection{Figura 7}
 
@@ -507,8 +501,7 @@ la precipitación sobre los océanos tropicales cálidos frente a la menor varia
 sobre las regiones continentales.
 
 Las diferencias respecto al original son pequeñas y no alteran las conclusiones.
-Las variaciones más notorias se presentan en las regiones de mayor precipitación ---
-Pacífico occidental ($185^\circ$~E) y Continente Marítimo ($125^\circ$~E) ---, donde
+Las variaciones más notorias se presentan en las regiones de mayor precipitación, Pacífico occidental ($185^\circ$~E) y Continente Marítimo ($125^\circ$~E), donde
 GPCP~v3.3 produce valores de $P_E$ más altos que v1.2, reduciendo ligeramente la
 fracción de días dentro del umbral de RCE. Por ejemplo, el Continente Marítimo
 alcanza apenas el 65\% a $90^\circ \times 90^\circ$ en nuestra réplica, siendo la
