@@ -20,3 +20,10 @@ proyecto 3/datos/**
 # Proyecto 3: local exports
 proyecto 3/eda_rapido.png
 proyecto 3/figuras/*original.png
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Proyecto final: raw datasets + processed outputs (do not version)
+proyecto final/datos/**
