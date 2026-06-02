@@ -35,13 +35,10 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\small Teleconexiones Climáticas}
-\rhead{\small Mini Proyecto 4}
+\lhead{\small Modelo de Capa Mixta Oce\'anica -- Pac\'ifico Colombiano}
 \rfoot{\thepage}
 
 % --- Bibliografía ---
-\usepackage[numbers, sort&compress]{natbib}
-\bibliographystyle{plainnat}
 
 % =============================================================
 \begin{document}
@@ -49,16 +46,16 @@
 	\begin{titlepage}
 		\centering
 		\vspace*{2cm}
-		{\LARGE \textbf{Mini Proyecto 4: Teleconexiones Climáticas en el Eje Cafetero}\\[0.5em]
-			\large Variabilidad interna del sistema climático: ENSO y la Oscilación
-			Multidecadal del Atlántico como moduladores de la precipitación
-			y la temperatura en los Andes colombianos}\\[2cm]
-		{\large Jhon García Barrera}\\[0.5em]
-		{\normalsize Física del Clima y Cambio Climático}\\[0.5em]
+		{\LARGE \textbf{Proyecto Final: Respuesta T\'ermica e Hidrol\'ogica
+				del Pac\'ifico Colombiano al Calentamiento Global}\\[0.5em]
+			\large Estimaci\'on de cambios en SST y precipitaci\'on mediante\\
+			el modelo de capa mixta oce\'anica de Price, Weller y Pinkel}\\[2cm]
+		{\large Jhon Garc\'ia Barrera}\\[0.5em]
+		{\normalsize F\'isica del Clima y Cambio Clim\'atico}\\[0.5em]
 		{\normalsize \today}\\[3cm]
 		\vfill
-		{\small Código y datos disponibles en:\\
-			\url{https://github.com/jhongarciab/proyectos-clima/tree/main/proyecto%204}}
+		{\small C\'odigo y datos disponibles en:\\
+			\url{https://github.com/jhongarciab/proyectos-clima/tree/main/proyecto%20final}}
 	\end{titlepage}
 	
 	\tableofcontents
@@ -71,8 +68,8 @@ depende de manera cr\'itica del r\'egimen de precipitaci\'on sobre su vertiente 
 y los Andes occidentales. Dicho r\'egimen est\'a controlado en gran medida por la 
 temperatura superficial del mar (SST) en el Pac\'ifico colombiano (aproximadamente 
 0--8$^{\circ}$N, 75--82$^{\circ}$W), regi\'on donde la Zona de Convergencia Intertropical 
-(ITCZ) y el Chorro del Choc\'o ---la corriente de bajo nivel que transporta humedad desde 
-el oc\'eano hacia el interior del pa\'is--- interact\'uan estrechamente con las condiciones 
+(ITCZ) y el Chorro del Choc\'o, la corriente de bajo nivel que transporta humedad desde 
+el oc\'eano hacia el interior del pa\'is, interact\'uan estrechamente con las condiciones 
 oce\'anicas de superficie \cite{Poveda2004}. Esta conexi\'on ha sido documentada 
 ampliamente: Poveda et al.\ \cite{Poveda2001} demostraron que las anomal\'ias de SST 
 asociadas al fen\'omeno El Ni\~no-Oscilaci\'on del Sur (ENSO) explican hasta el 50\,\% de 
@@ -85,8 +82,8 @@ Pac\'ifico oriental, donde la SST local act\'ua como modulador directo de la ine
 convectiva.
 
 A pesar de este cuerpo de evidencia, no existe una cuantificaci\'on regional de c\'omo 
-responder\'ia la SST del Pac\'ifico colombiano a un forzamiento radiativo sostenido ---como 
-el que impone el aumento de gases de efecto invernadero--- ni de las consecuencias 
+responder\'ia la SST del Pac\'ifico colombiano a un forzamiento radiativo sostenido, como 
+el que impone el aumento de gases de efecto invernadero, ni de las consecuencias 
 hidrol\'ogicas de esa respuesta. Las proyecciones globales de CMIP6 \cite{Eyring2016} 
 ofrecen informaci\'on sobre la SST futura a escala de cuenca, pero su resoluci\'on espacial 
 es insuficiente para capturar la din\'amica local de una regi\'on tan compleja como el 
@@ -102,8 +99,8 @@ directamente con la atm\'osfera. Su temperatura evoluciona en respuesta al balan
 el calentamiento solar, el enfriamiento por radiaci\'on de onda larga, los flujos 
 turbulentos de calor latente y sensible, y el enfriamiento por entrainment de aguas m\'as 
 fr\'ias desde abajo \cite{SwensonHansen1999}. En el Pac\'ifico tropical oriental la CML es 
-delgada ---entre 15 y 50\,m seg\'un la climatolog\'ia de de Boyer Mont\'egut et al.\ 
-\cite{deBoyer2004}, actualizada con perfiles Argo \cite{deBoyer2024}--- de modo que 
+delgada, entre 15 y 50\,m seg\'un la climatolog\'ia de de Boyer Mont\'egut et al.\ 
+\cite{deBoyer2004}, actualizada con perfiles Argo \cite{deBoyer2024}, de modo que 
 perturbaciones peque\~nas en el forzamiento superficial producen cambios de SST 
 amplificados, haciendo a esta regi\'on especialmente sensible al calentamiento global. El 
 modelo unidimensional de Price, Weller y Pinkel (PWP) \cite{Price1986} constituye una 
@@ -456,7 +453,7 @@ $+2^{\circ}$C y $+4^{\circ}$C respectivamente), lo que refleja el efecto amortig
 del entrainment y de los flujos turbulentos: al aumentar $T_{2m}$, el gradiente 
 aire-mar se reduce, disminuye el calor sensible cedido al oc\'eano y aumenta la 
 evaporaci\'on, limitando el calentamiento neto de la CML. La respuesta no es 
-espacialmente uniforme --- los p\'ixeles del sector norte del dominio (6--8$^{\circ}$N) 
+espacialmente uniforme, los p\'ixeles del sector norte del dominio (6--8$^{\circ}$N) 
 muestran $\Delta$SST sistem\'aticamente mayores, consistente con una CML m\'as delgada 
 en esa subregi\'on seg\'un la climatolog\'ia de MLD.
 
@@ -604,5 +601,274 @@ impacto hidrol\'ogico potencial bajo cada escenario.
 		La precipitaci\'on de referencia es 253.2\,mm\,mes$^{-1}$ (media 1982--2023).}
 	\label{fig:delta_p_escenarios}
 \end{figure}
+
+\section{Discusi\'on}
+
+\subsection{Limitaciones del modelo}
+
+El modelo PWP implementado en este trabajo constituye una aproximaci\'on de primer orden 
+a la din\'amica de la capa mixta oce\'anica. Su principal fortaleza es la transparencia 
+f\'isica: cada componente del balance de calor es expl\'icita y trazable, lo que 
+facilita la interpretaci\'on mec\'anica de los resultados. Sin embargo, tres 
+simplificaciones merecen discusi\'on expl\'icita.
+
+En primer lugar, la parametrizaci\'on de los flujos turbulentos utiliza coeficientes 
+de intercambio bulk fijos ($C_E = 1.15 \times 10^{-3}$, $C_H = 1.3 \times 10^{-3}$), 
+inspirados en el algoritmo COARE \cite{Fairall1996, Fairall2003} pero sin la iteraci\'on 
+completa sobre la longitud de Obukhov que caracteriza a ese algoritmo. En condiciones 
+de viento d\'ebil y estratificaci\'on estable, frecuentes en el Pac\'ifico colombiano, los coeficientes iterativos de COARE se desvían de los valores fijos, lo que puede 
+introducir errores sistem\'aticos en los flujos de calor latente y sensible. Esta 
+limitaci\'on es consistente con el sesgo negativo observado en DJF 
+(sesgo = $-1.21^{\circ}$C), estaci\'on de menor velocidad del viento en la regi\'on.
+
+En segundo lugar, la velocidad de entrainment se parametriza como una funci\'on simple 
+del flujo neto de calor (ecuaci\'on~\ref{eq:we}), sin incluir el ajuste convectivo por 
+inestabilidad est\'atica ni el criterio de n\'umero de Richardson de bulto que 
+caracterizan al PWP completo \cite{Price1986}. Esta simplificaci\'on tiende a 
+sobreestimar el enfriamiento por entrainment cuando $Q_\text{net} < 0$, lo que es 
+coherente con el sesgo negativo sistem\'atico observado en la validaci\'on.
+
+En tercer lugar, el dise\~no experimental perturba \'unicamente $T_{2m}$, manteniendo 
+fijos el viento, la humedad, la radiaci\'on de onda corta y larga. En la realidad, 
+el calentamiento global altera todos estos forzamientos simult\'aneamente: el viento 
+se debilita \cite{VecchiSoden2007}, la humedad atmosf\'erica aumenta, y la cobertura 
+de nubes cambia de manera compleja \cite{Zelinka2020}. Los $\Delta$SST reportados 
+representan por tanto una cota inferior de la respuesta total al calentamiento global, 
+ya que no incluyen la retroalimentaci\'on del vapor de agua ni los cambios en la 
+circulaci\'on atmosf\'erica.
+
+\subsection{Comparaci\'on con proyecciones CMIP6}
+
+Los $\Delta$SST obtenidos ($+0.32^{\circ}$C, $+0.42^{\circ}$C y $+0.83^{\circ}$C 
+para SSP1-2.6, SSP2-4.5 y SSP5-8.5 respectivamente) son sistem\'aticamente menores 
+que las proyecciones de SST de los modelos CMIP6 para el Pac\'ifico tropical oriental 
+\cite{Eyring2016}. Esta diferencia es esperable y f\'isicamente coherente por dos 
+razones. Primero, el experimento a\'isla el efecto del calentamiento atmosf\'erico 
+sobre la CML, sin incluir el calentamiento oce\'anico subsuperficial ni los cambios 
+en la circulaci\'on termohalina que los modelos acoplados s\'i representan. Segundo, 
+los modelos CMIP6 presentan una sensibilidad clim\'atica efectiva m\'as alta que 
+generaciones anteriores \cite{Zelinka2020}, en parte por una representaci\'on m\'as 
+agresiva de las retroalimentaciones de nubes de bajo nivel sobre el oc\'eano tropical, 
+mecanismo que no est\'a presente en un modelo de capa mixta unidimensional.
+
+A pesar de estas diferencias en magnitud, la estructura de la respuesta es cualitativamente 
+consistente con las proyecciones globales: mayor calentamiento en el sector norte del 
+dominio, dependencia estacional con m\'aximos entre junio y octubre, y una respuesta 
+aproximadamente lineal al forzamiento t\'ermico.
+
+\subsection{Implicaciones para Colombia}
+
+Los cambios de precipitaci\'on estimados ($+4.0$\,\%, $+5.3$\,\% y $+10.4$\,\%) para 
+SSP1-2.6, SSP2-4.5 y SSP5-8.5) apuntan a un incremento en la precipitaci\'on sobre 
+la regi\'on costera y andina adyacente bajo todos los escenarios considerados. Si bien 
+estos valores deben interpretarse como cotas superiores dado el origen estacional de 
+la relaci\'on SST--P, la direcci\'on del cambio es coherente con el marco te\'orico de 
+Xie et al.\ \cite{Xie2010}: el Pac\'ifico colombiano, al calentarse por encima de la 
+media tropical, tender\'ia a concentrar m\'as convecci\'on y precipitaci\'on. 
+
+Este resultado tiene implicaciones directas para la gesti\'on de recursos h\'idricos 
+en Colombia \cite{MoralesMarın2026}. Un incremento del 10\,\% en la precipitaci\'on 
+mensual sobre los Andes occidentales (aunque sea una cota superior) representa 
+un aumento significativo en la escorrent\'ia hacia cuencas que ya experimentan eventos 
+extremos frecuentes. Al mismo tiempo, la mayor evaporaci\'on proyectada por el modelo 
+($\Delta Q_L = +17.2\,\text{W\,m}^{-2}$ para SSP5-8.5) sugiere una intensificaci\'on 
+del ciclo hidrol\'ogico regional, consistente con las tendencias observadas en el 
+Pac\'ifico tropical \cite{Poveda2011}.
+
+Finalmente, la dependencia estacional del $\Delta$SST, con m\'aximos entre junio 
+y octubre, coincide con la temporada de mayor actividad del Chorro del Choc\'o 
+\cite{Poveda2004}, el mecanismo de transporte de humedad dominante hacia el interior 
+del pa\'is. Un calentamiento preferencial de la SST durante este per\'iodo podr\'ia 
+amplificar la intensidad del Chorro y, con ello, los eventos de precipitaci\'on extrema 
+sobre la cordillera occidental, con consecuencias para la gesti\'on del riesgo de 
+inundaciones y deslizamientos en la regi\'on.
+
+\section{Conclusiones}
+
+Este trabajo implement\'o y valid\'o el modelo de capa mixta oce\'anica de Price, 
+Weller y Pinkel forzado con el rean\'alisis ERA5 sobre el Pac\'ifico colombiano 
+(0--8$^{\circ}$N, 75--82$^{\circ}$W) para el per\'iodo 1982--2023, y estim\'o la 
+respuesta t\'ermica y pluviom\'etrica de la regi\'on ante tres escenarios de 
+calentamiento atmosf\'erico coherentes con SSP1-2.6, SSP2-4.5 y SSP5-8.5. Las 
+principales conclusiones son las siguientes:
+
+\begin{enumerate}
+	
+	\item El modelo reproduce satisfactoriamente la variabilidad de la SST en el 
+	dominio oce\'anico, con un RMSE global de 1.22$^{\circ}$C, un sesgo de 
+	$-0.11^{\circ}$C y una correlaci\'on de Pearson de $r = 0.659$ en el p\'ixel 
+	de referencia (4$^{\circ}$N, 80$^{\circ}$W). La validaci\'on espacial arroja 
+	un RMSE de 1.18$^{\circ}$C sobre el dominio oce\'anico completo. El modelo 
+	captura correctamente el signo de la anomal\'ia de SST en 5 de los 6 eventos 
+	ENSO analizados, con mejor desempe\~no en los eventos de mayor se\~nal 
+	(El Ni\~no 1997--98, La Ni\~na 1988--89).
+	
+	\item La validaci\'on estacional revela que DJF es la estaci\'on con mayor 
+	error sistem\'atico (RMSE = 1.70$^{\circ}$C, sesgo = $-1.21^{\circ}$C), 
+	consistente con una parametrizaci\'on de entrainment simplificada que 
+	sobreestima el enfriamiento de la capa mixta cuando el flujo neto de calor 
+	es negativo. JJA presenta el menor sesgo ($-0.08^{\circ}$C), lo que indica 
+	que el modelo funciona mejor durante la temporada de mayor actividad 
+	convectiva.
+	
+	\item Bajo calentamiento atmosf\'erico, el $\Delta$SST medio sobre el dominio 
+	es de $+0.32^{\circ}$C, $+0.42^{\circ}$C y $+0.83^{\circ}$C para SSP1-2.6, 
+	SSP2-4.5 y SSP5-8.5 respectivamente. En los tres casos el calentamiento de 
+	la SST es inferior a la perturbaci\'on impuesta en $T_{2m}$, debido a la 
+	compensaci\'on entre la reducci\'on del calor sensible 
+	($\Delta Q_S = -21.9\,\text{W\,m}^{-2}$) y el aumento de la evaporaci\'on 
+	($\Delta Q_L = +17.2\,\text{W\,m}^{-2}$) para SSP5-8.5. La respuesta es 
+	mayor en el sector norte del dominio y presenta m\'aximos estacionales entre 
+	junio y octubre, coincidiendo con el per\'iodo de menor profundidad de la 
+	capa mixta.
+	
+	\item La relaci\'on emp\'irica SST--precipitaci\'on calibrada con CHIRPS v2 
+	muestra una pendiente positiva de $31.7\,\text{mm\,mes}^{-1}\,^{\circ}\text{C}^{-1}$ 
+	sobre series brutas ($R^2 = 0.364$), pero negativa de 
+	$-24.9\,\text{mm\,mes}^{-1}\,^{\circ}\text{C}^{-1}$ sobre anomal\'ias con 
+	ciclo estacional removido ($R^2 = 0.161$). Esto indica que la relaci\'on 
+	positiva est\'a dominada por la covariaci\'on estacional y no por la se\~nal 
+	interanual, por lo que los cambios de precipitaci\'on estimados constituyen 
+	cotas superiores.
+	
+	\item Los cambios de precipitaci\'on estimados son de $+4.0$\,\%, $+5.3$\,\% 
+	y $+10.4$\,\% para SSP1-2.6, SSP2-4.5 y SSP5-8.5 respectivamente, con 
+	intervalos de confianza del 95\,\% obtenidos mediante bootstrap. La direcci\'on 
+	del cambio es coherente con el marco te\'orico de Xie et al.\ \cite{Xie2010}: 
+	al calentarse el Pac\'ifico colombiano por encima de la media tropical, se 
+	espera una concentraci\'on de convecci\'on y precipitaci\'on en la regi\'on. 
+	La coincidencia del m\'aximo de $\Delta$SST con la temporada activa del Chorro 
+	del Choc\'o \cite{Poveda2004} sugiere una posible amplificaci\'on de los eventos 
+	de precipitaci\'on extrema sobre la cordillera occidental bajo escenarios de 
+	calentamiento global intenso.
+	
+\end{enumerate}
+
+Trabajos futuros deber\'ian incorporar el algoritmo COARE 3.0 completo 
+\cite{Fairall2003} y el criterio de n\'umero de Richardson para el entrainment 
+\cite{Price1986}, explorar la sensibilidad de los resultados a cambios simult\'aneos 
+en el viento y la radiaci\'on, y desarrollar una relaci\'on SST--precipitaci\'on 
+basada en anomal\'ias interanuales que supere las limitaciones de la regresi\'on sobre 
+series brutas identificadas en este trabajo.
+
+\begin{thebibliography}{99}
+	
+	\bibitem{Poveda2004}
+	Poveda, G. (2004).
+	La hidroclimatolog\'ia de Colombia: una s\'intesis desde la escala interdecadal hasta la escala diurna.
+	\textit{Revista de la Academia Colombiana de Ciencias Exactas, F\'isicas y Naturales}, 28(107), 201--222.
+	
+	\bibitem{Poveda2001}
+	Poveda, G., Jaramillo, A., Gil, M.\,M., Quiceno, N., y Mantilla, R.\,I. (2001).
+	Seasonality in ENSO-related precipitation, river discharges, soil moisture, and vegetation index in Colombia.
+	\textit{Water Resources Research}, 37(8), 2169--2178.
+	
+	\bibitem{Poveda2011}
+	Poveda, G., Alvarez, D. M., \& Rueda, O. A. (2011).
+	Hydro-climatic variability over the Andes of Colombia associated with ENSO: a review of climatic processes and their impact on one of the Earth's most important biodiversity hotspots.
+	\textit{Climate Dynamics}, 36(11), 2233--2249.
+	
+	\bibitem{CordobaMachado2015}
+	C\'ordoba-Machado, S., Palomino-Lemus, R., Gámiz-Fortis, S. R., Castro-D\'iez, Y., \& Esteban-Parra, M. J. (2015).
+	Assessing the impact of El Ni\~no Modoki on seasonal precipitation in Colombia.
+	\textit{Global and Planetary Change}, 124, 41--61.
+	
+	\bibitem{Eyring2016}
+	Eyring, V., Bony, S., Meehl, G. A., Senior, C. A., Stevens, B., Stouffer, R. J., \& Taylor, K. E. (2016).
+	Overview of the Coupled Model Intercomparison Project Phase 6 (CMIP6) experimental design and organization.
+	\textit{Geoscientific Model Development}, 9(5), 1937--1958.
+	
+	\bibitem{Zelinka2020}
+	Zelinka, M. D., Myers, T. A., McCoy, D. T., Po-Chedley, S., Caldwell, P. M., Ceppi, P., \ldots \& Taylor, K. E. (2020).
+	Causes of higher climate sensitivity in CMIP6 models.
+	\textit{Geophysical Research Letters}, 47(1), e2019GL085782.
+	
+	\bibitem{SwensonHansen1999}
+	Swenson, M. S., \& Hansen, D. V. (1999).
+	Tropical Pacific ocean mixed layer heat budget: The Pacific cold tongue.
+	\textit{Journal of Physical Oceanography}, 29(1), 69--81.
+	
+	\bibitem{deBoyer2004}
+	de Boyer Mont\'egut, C., Madec, G., Fischer, A. S., Lazar, A., \& Iudicone, D. (2004).
+	Mixed layer depth over the global ocean: An examination of profile data and a profile-based climatology.
+	\textit{Journal of Geophysical Research: Oceans}, 109(C12), C12003.
+	
+	\bibitem{deBoyer2024}
+	de Boyer Mont\'egut, C. (2024).
+	Mixed layer depth over the global ocean: a climatology computed with a density threshold criterion of 0.03\,kg/m$^3$ from 5\,m depth value.
+	SEANOE. \url{https://doi.org/10.17882/98226}
+	
+	\bibitem{Price1986}
+	Price, J. F., Weller, R. A., \& Pinkel, R. (1986).
+	Diurnal cycling: Observations and models of the upper ocean response to diurnal heating, cooling, and wind mixing.
+	\textit{Journal of Geophysical Research: Oceans}, 91(C7), 8411--8427.
+	
+	\bibitem{Fairall1996}
+	Fairall, C. W., Bradley, E. F., Rogers, D. P., Edson, J. B., \& Young, G. S. (1996).
+	Bulk parameterization of air-sea fluxes for Tropical Ocean-Global Atmosphere Coupled-Ocean Atmosphere Response Experiment.
+	\textit{Journal of Geophysical Research: Oceans}, 101(C2), 3747--3764.
+	
+	\bibitem{Fairall2003}
+	Fairall, C. W., Bradley, E. F., Hare, J. E., Grachev, A. A., \& Edson, J. B. (2003).
+	Bulk parameterization of air-sea fluxes: Updates and verification for the COARE algorithm.
+	\textit{Journal of Climate}, 16(4), 571--591.
+	
+	\bibitem{Xie2010}
+	Xie, S.-P., Deser, C., Vecchi, G. A., Ma, J., Teng, H., \& Wittenberg, A. T. (2010).
+	Global warming pattern formation: Sea surface temperature and rainfall.
+	\textit{Journal of Climate}, 23(4), 966--986.
+	
+	\bibitem{Xie2020}
+	Xie, S.-P. (2020).
+	Ocean warming pattern effect on global and regional climate change.
+	\textit{AGU Advances}, 1(1), e2019AV000130.
+	
+	\bibitem{JohnsonXie2010}
+	Johnson, N. C., \& Xie, S.-P. (2010).
+	Changes in the sea surface temperature threshold for tropical convection.
+	\textit{Nature Geoscience}, 3(12), 842--845.
+	
+	\bibitem{Sun2020}
+	Sun, N., Zhou, T., Chen, X., Endo, H., Kitoh, A., y Wu, B. (2020).
+	Amplified tropical Pacific rainfall variability related to background SST warming.
+	\textit{Climate Dynamics}, 54, 2387--2402.
+	
+	\bibitem{VecchiSoden2007}
+	Vecchi, G. A., \& Soden, B. J. (2007).
+	Global warming and the weakening of the tropical circulation.
+	\textit{Journal of Climate}, 20(17), 4316--4340.
+	
+	\bibitem{Schneider2014}
+	Schneider, T., Bischoff, T., \& Haug, G. H. (2014).
+	Migrations and dynamics of the intertropical convergence zone.
+	\textit{Nature}, 513(7516), 45--53.
+	
+	\bibitem{Hersbach2020}
+	Hersbach, H., Bell, B., Berrisford, P., Hirahara, S., Hor\'anyi, A., Mu\~noz-Sabater, J., \ldots \& Th\'epaut, J.-N. (2020).
+	The ERA5 global reanalysis.
+	\textit{Quarterly Journal of the Royal Meteorological Society}, 146(730), 1999--2049.
+	
+	\bibitem{Huang2021}
+	Huang, B., Liu, C., Banzon, V., Freeman, E., Graham, G., Hankins, B., \ldots \& Zhang, H.-M. (2021).
+	Improvements of the Daily Optimum Sea Surface Temperature (DOISST): Version 2.1.
+	\textit{Journal of Climate}, 34(8), 2923--2939.
+	
+	\bibitem{Ceron2021}
+	Cer\'on, W.\,L., Kayano, M.\,T., Andreoli, R.\,V., Canchala, T., Carvajal-Escobar, Y., y Alfonso-Morales, W. (2021).
+	Rainfall variability in southwestern Colombia: changes in ENSO-related features.
+	\textit{Pure and Applied Geophysics}, 178(3), 1087--1103.
+	
+	\bibitem{MoralesMarın2026}
+	Morales-Mar\'in, L.\,A., Rodr\'iguez, E.\,A., y Jaramillo, F. (2026).
+	Water resources challenges in Colombia: hydrological science solutions for a sustainable future.
+	\textit{Hydrological Sciences Journal}, 1--20.
+	\url{https://doi.org/10.1080/02626667.2026.2631143}
+	
+	\bibitem{Funk2015}
+	Funk, C., Peterson, P., Landsfeld, M., Pedreros, D., Verdin, J., Shukla, S., \ldots \& Michaelsen, J. (2015).
+	The climate hazards infrared precipitation with stations -- A new environmental record for monitoring extremes.
+	\textit{Scientific Data}, 2, 150066.
+	
+\end{thebibliography}
 
 \end{document}
